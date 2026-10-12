@@ -250,6 +250,7 @@ function evalCond(c, m, names) {
       return pend(text, me > op ? 'good' : me === op ? 'warn' : 'bad');
     }
   }
+  if (c.type === 'manual') return pend(c.text || 'ხელით შესამოწმებელია');
   return pend('უცნობი პირობა');
 }
 function combine(list) {
