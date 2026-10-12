@@ -109,7 +109,7 @@
       "key": "t4",
       "placed": "00:00",
       "stake": 5,
-      "odds": 24.03,
+      "odds": 24.35,
       "name": "ღამის ბილეთი · Claude",
       "legs": [
         {
@@ -125,15 +125,16 @@
         },
         {
           "fotmob": "1000017432",
-          "bet": "BB: ძირითადი შედეგი 1 + გოლების რ-ბა მეტი (1.5)",
-          "odds": 2.24,
+          "bet": "BB: ძირითადი შედეგი 1 + I გუნდის გოლები მეტი (1.5)",
+          "odds": 2.27,
           "conds": [
             {
               "type": "win",
               "side": "home"
             },
             {
-              "type": "total_over",
+              "type": "team_over",
+              "side": "home",
               "line": 1.5
             }
           ]
