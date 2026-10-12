@@ -289,7 +289,12 @@ async function loadConfig() {
   CFG = await r.json();
 }
 const API = 'https://webws.365scores.com/web/', Q = 'appTypeId=5&langId=1&timezoneName=UTC&userCountryId=-1';
-async function getJSON(u) { const r = await fetch(u, { cache: 'no-store' }); if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }
+async function getJSON(u) {
+  const ac = new AbortController(), t = setTimeout(() => ac.abort(), 12e3);
+  try { const r = await fetch(u, { cache: 'no-store', signal: ac.signal }); if (!r.ok) throw new Error('HTTP ' + r.status); return await r.json(); }
+  catch (e) { throw new Error(e.name === 'AbortError' ? 'timeout' : e.message); }
+  finally { clearTimeout(t); }
+}
 async function refresh(force) {
   const ids = [...new Set(CFG.tickets.flatMap(t => t.legs.map(l => String(l.fotmob))))]; const now = Date.now();
   await Promise.all(ids.map(async id => {
@@ -379,9 +384,9 @@ function render(state) {
   }).join('');
 }
 
-let busy = false, fails = 0;
+let busy = false, busySince = 0, fails = 0;
 async function tick(force) {
-  if (busy) return; busy = true;
+  if (busy && Date.now() - busySince < 30e3) return; busy = true; busySince = Date.now();
   try {
     if (!CFG) await loadConfig(); await refresh(force); const s = build(); diff(s); prev = s; render(s);
     const anyOk = [...cache.values()].some(c => !c.err); fails = anyOk ? 0 : fails + 1;
