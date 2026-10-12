@@ -309,8 +309,8 @@ async function refresh(force) {
       const live = game.statusGroup === 3 || game.statusGroup === 4;
       const stats = live ? await getJSON(API + 'game/stats/?' + Q + '&games=' + gid).catch(() => c?.stats || null) : null;
       const m = parseMatch(game, stats);
-      cache.set(id, { at: now, m, stats, err: null, final: m.finished && !!c?.m?.finished });
-    } catch (e) { cache.set(id, { ...(c || {}), at: now, m: c?.m || null, err: String(e.message || e), final: false }); }
+      cache.set(id, { at: now, m, stats, err: null, final: m.finished && !!c?.m?.finished }); paint();
+    } catch (e) { cache.set(id, { ...(c || {}), at: now, m: c?.m || null, err: String(e.message || e), final: false }); paint(); }
   }));
 }
 
@@ -384,11 +384,14 @@ function render(state) {
   }).join('');
 }
 
+// Draw as soon as each match arrives, so one slow response never blanks the page.
+let paintT = 0;
+function paint() { clearTimeout(paintT); paintT = setTimeout(() => { const s = build(); diff(s); prev = s; render(s); }, 60); }
 let busy = false, busySince = 0, fails = 0;
 async function tick(force) {
   if (busy && Date.now() - busySince < 30e3) return; busy = true; busySince = Date.now();
   try {
-    if (!CFG) await loadConfig(); await refresh(force); const s = build(); diff(s); prev = s; render(s);
+    if (!CFG) await loadConfig(); paint(); await refresh(force); paint();
     const anyOk = [...cache.values()].some(c => !c.err); fails = anyOk ? 0 : fails + 1;
   } catch (e) { fails++; $('#upd').textContent = 'კავშირი არ არის'; }
   finally { busy = false; }
