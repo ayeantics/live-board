@@ -4,160 +4,317 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#374df5">
+<meta name="theme-color" content="#17181d">
 <title>ლაივ ბილეთები</title>
+<script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* Layout: sticky app bar, ticket summary cards, then one row per leg with only the stats that leg needs. */
+/* lb-v2 · SofaScore-style layout: app bar, all-tickets overview, ticket tabs, ticket summary, match rows with expandable details. */
 :root{
-  --s0:#edf1f6;--s1:#ffffff;--s2:#f3f5f9;
-  --n1:#1d1d22;--n2:rgba(29,29,34,.74);--n3:rgba(29,29,34,.52);--n4:rgba(29,29,34,.13);
-  --pri:#374df5;--appbar:#374df5;--onbar:#fff;
-  --home:#374df5;--away:#0aa6b2;
-  --won:#0b9e2b;--won-bg:rgba(11,158,43,.11);
-  --lost:#d6273d;--lost-bg:rgba(214,39,61,.09);
-  --warn:#a86b10;--warn-bg:rgba(230,160,40,.16);
-  --live:#e8243b;--good:#0b9e2b;--bad:#d6273d;
+  --bg:#0f1013;--card:#191a1f;--card2:#212329;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.15);
+  --n1:#f3f4f6;--n2:rgba(243,244,246,.78);--n3:rgba(243,244,246,.62);
+  --pri:#8592ff;--pri-bg:rgba(133,146,255,.16);
+  --bar:#17181d;--onbar:#f3f4f6;--onbar2:rgba(243,244,246,.74);--barbtn:rgba(255,255,255,.08);
+  --home:#8592ff;--on-home:#0c1140;--away:#35d0da;--on-away:#05272a;
+  --won:#34c972;--won-bg:rgba(52,201,114,.15);--lost:#ff5d6e;--lost-bg:rgba(255,93,110,.14);
+  --warn:#f1b54c;--warn-bg:rgba(241,181,76,.15);--live:#ff3d52;--good:#34c972;--bad:#ff5d6e;
+  --toast:#f3f4f6;--on-toast:#14151a;--shadow:0 0 0 rgba(0,0,0,0);
+  color-scheme:dark;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --s0:#111115;--s1:#1b1b21;--s2:#24242b;
-  --n1:#fff;--n2:rgba(255,255,255,.76);--n3:rgba(255,255,255,.52);--n4:rgba(255,255,255,.13);
-  --pri:#8b98ff;--appbar:#1b1b21;--onbar:#fff;--home:#7c8bff;--away:#2fd0db;
-  --won:#3ccf5e;--won-bg:rgba(60,207,94,.13);--lost:#ff5a6e;--lost-bg:rgba(255,90,110,.12);
-  --warn:#f2b445;--warn-bg:rgba(242,180,69,.14);--live:#ff4d5e;--good:#3ccf5e;--bad:#ff5a6e;color-scheme:dark;
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --bg:#edf0f4;--card:#fff;--card2:#f4f6f9;--line:rgba(18,20,28,.09);--line2:rgba(18,20,28,.17);
+  --n1:#14151a;--n2:rgba(20,21,26,.76);--n3:rgba(20,21,26,.62);
+  --pri:#374df5;--pri-bg:rgba(55,77,245,.1);
+  --bar:#374df5;--onbar:#fff;--onbar2:rgba(255,255,255,.86);--barbtn:rgba(255,255,255,.17);
+  --home:#374df5;--on-home:#fff;--away:#08838d;--on-away:#fff;
+  --won:#0a8f40;--won-bg:rgba(10,143,64,.1);--lost:#d0233a;--lost-bg:rgba(208,35,58,.08);
+  --warn:#94600b;--warn-bg:rgba(230,160,40,.16);--live:#e3203a;--good:#0a8f40;--bad:#d0233a;
+  --toast:#14151a;--on-toast:#fff;--shadow:0 1px 2px rgba(16,24,40,.06);
+  color-scheme:light;
 }}
-:root[data-theme="dark"]{
-  --s0:#111115;--s1:#1b1b21;--s2:#24242b;
-  --n1:#fff;--n2:rgba(255,255,255,.76);--n3:rgba(255,255,255,.52);--n4:rgba(255,255,255,.13);
-  --pri:#8b98ff;--appbar:#1b1b21;--onbar:#fff;--home:#7c8bff;--away:#2fd0db;
-  --won:#3ccf5e;--won-bg:rgba(60,207,94,.13);--lost:#ff5a6e;--lost-bg:rgba(255,90,110,.12);
-  --warn:#f2b445;--warn-bg:rgba(242,180,69,.14);--live:#ff4d5e;--good:#3ccf5e;--bad:#ff5a6e;color-scheme:dark;
+:root[data-theme="light"]{
+  --bg:#edf0f4;--card:#fff;--card2:#f4f6f9;--line:rgba(18,20,28,.09);--line2:rgba(18,20,28,.17);
+  --n1:#14151a;--n2:rgba(20,21,26,.76);--n3:rgba(20,21,26,.62);
+  --pri:#374df5;--pri-bg:rgba(55,77,245,.1);
+  --bar:#374df5;--onbar:#fff;--onbar2:rgba(255,255,255,.86);--barbtn:rgba(255,255,255,.17);
+  --home:#374df5;--on-home:#fff;--away:#08838d;--on-away:#fff;
+  --won:#0a8f40;--won-bg:rgba(10,143,64,.1);--lost:#d0233a;--lost-bg:rgba(208,35,58,.08);
+  --warn:#94600b;--warn-bg:rgba(230,160,40,.16);--live:#e3203a;--good:#0a8f40;--bad:#d0233a;
+  --toast:#14151a;--on-toast:#fff;--shadow:0 1px 2px rgba(16,24,40,.06);
+  color-scheme:light;
 }
 *{box-sizing:border-box}
-html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-body{margin:0;background:var(--s0);color:var(--n1);font:15px/1.45 "Noto Sans Georgian","Segoe UI",system-ui,sans-serif}
-.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--appbar);color:var(--onbar);border-bottom:1px solid var(--n4)}
-.bar-in{max-width:880px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px}
-.bar h1{font-size:17px;font-weight:700;margin:0;flex:1;min-width:0}
-.upd{font-size:13px;opacity:.85;font-variant-numeric:tabular-nums}
-.btn{border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:var(--onbar);border-radius:8px;padding:6px 10px;font:inherit;font-size:14px;cursor:pointer}
-.btn[aria-pressed="true"]{background:#fff;color:#374df5}
-.btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
-main{max-width:880px;margin:0 auto;padding:14px 16px 28px}
-.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:16px}
-.card{background:var(--s1);border:1px solid var(--n4);border-radius:12px;padding:12px 14px;text-decoration:none;color:inherit;display:block}
-.card .t{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:600}
-.card .money{font-size:21px;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums}
-.card .sub{font-size:14px;color:var(--n2)}
-.pill{font-size:13px;font-weight:600;border-radius:999px;padding:2px 10px;white-space:nowrap}
-.pill.live{background:var(--warn-bg);color:var(--warn)}
-.pill.won{background:var(--won-bg);color:var(--won)}
-.pill.lost{background:var(--lost-bg);color:var(--lost)}
-.dots{display:flex;gap:5px;margin-top:8px}
-.dot{width:11px;height:11px;border-radius:50%;background:var(--n4)}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--n1);font:15px/1.45 "Noto Sans Georgian",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit}
+
+/* app bar */
+.bar{position:sticky;top:0;z-index:10;background:var(--bar);color:var(--onbar);padding-top:env(safe-area-inset-top,0px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1080px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.brand{flex:1;min-width:0}
+.brand h1{margin:0;font-size:18px;font-weight:700;line-height:1.3}
+.brand .sub{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--onbar2);white-space:nowrap;overflow:hidden;font-variant-numeric:tabular-nums}
+.livei{display:inline-flex;align-items:center;gap:6px}
+.livei.on{color:var(--onbar);font-weight:600}
+.livei.on::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--live);box-shadow:0 0 0 2px rgba(255,255,255,.18);animation:p 1.4s infinite}
+.ib{flex:none;width:40px;height:40px;border-radius:10px;border:0;background:var(--barbtn);color:var(--onbar);font-size:18px;line-height:1;display:grid;place-items:center;cursor:pointer}
+.ib:focus-visible,.tab:focus-visible,.row:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
+@keyframes p{50%{opacity:.3}}
+
+/* layout */
+.wrap{max-width:1080px;margin:0 auto;padding:12px 16px calc(32px + env(safe-area-inset-bottom,0px))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+
+/* overview */
+.ov{padding:14px 16px}
+.ov-h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.ov-h h2{margin:0;font-size:16px;font-weight:700}
+.ov-h .cap{font-size:13px;color:var(--n2)}
+.ov-pot{text-align:right}
+.ov-pot b{display:block;font-size:20px;line-height:1.2;font-variant-numeric:tabular-nums}
+.ov-pot span{font-size:13px;color:var(--n2)}
+.ov-g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.ov-g div{background:var(--card2);border-radius:10px;padding:8px 10px}
+.ov-g b{display:block;font-size:20px;line-height:1.2;font-variant-numeric:tabular-nums}
+.ov-g span{font-size:13px;color:var(--n2)}
+.ov-g .won b{color:var(--won)}.ov-g .lost b{color:var(--lost)}.ov-g .live b{color:var(--pri)}
+.ov-won{margin-top:10px;font-size:14px;color:var(--n2)}
+.ov-won b{color:var(--won);font-variant-numeric:tabular-nums}
+
+/* ticket tabs */
+.tabs{position:relative;display:flex;gap:8px;overflow-x:auto;margin:12px -16px 0;padding:0 16px 4px;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 172px;scroll-snap-align:start;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;display:grid;gap:3px;box-shadow:var(--shadow)}
+.tab.sel{border-color:var(--pri);box-shadow:inset 0 0 0 1px var(--pri)}
+.tab-n{font-weight:600;font-size:14px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab-m{font-size:13px;color:var(--n2);font-variant-numeric:tabular-nums}
+.tab-p{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.3}
+.tab-p.won{color:var(--won)}
+.tab-p.lost{color:var(--n3);text-decoration:line-through;text-decoration-thickness:1px}
+.tab-f{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:3px}
+.dots{display:flex;gap:4px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--line2)}
 .dot.won{background:var(--won)}.dot.lost{background:var(--lost)}.dot.refund{background:var(--warn)}
 .dot.on{background:var(--live);animation:p 1.4s infinite}
-section{margin-bottom:20px}
-.sec-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 8px;margin:0 2px 8px}
-.sec-h h2{font-size:17px;margin:0;display:flex;gap:8px;align-items:center}
-.sec-h .meta{font-size:14px;color:var(--n2)}
-.legs{background:var(--s1);border:1px solid var(--n4);border-radius:12px;overflow:hidden}
-.leg{display:grid;grid-template-columns:52px minmax(0,1fr) 60px;gap:10px;padding:12px 14px;border-top:1px solid var(--n4)}
-.leg:first-child{border-top:0}
-.leg.lost{background:var(--lost-bg)}.leg.won{background:var(--won-bg)}
-.clock{font-size:14px;color:var(--n2);text-align:center;padding-top:20px;font-variant-numeric:tabular-nums}
-.clock.on{color:var(--live);font-weight:700}
-.clock.on::before{content:"";display:block;width:8px;height:8px;border-radius:50%;background:var(--live);margin:0 auto 4px;animation:p 1.4s infinite}
-@keyframes p{50%{opacity:.25}}
-@media (prefers-reduced-motion:reduce){.clock.on::before,.dot.on{animation:none}}
-.comp{font-size:13px;color:var(--n3);margin-bottom:2px}
-.tm{display:flex;justify-content:space-between;gap:8px;font-size:15px}
-.tm b{font-size:16px;min-width:18px;text-align:right;font-variant-numeric:tabular-nums}
-.bet{display:inline-block;margin:6px 0 4px;font-size:14px;font-weight:600;color:var(--pri);background:color-mix(in srgb,var(--pri) 12%,transparent);border-radius:6px;padding:2px 8px}
-.cond{font-size:14px;display:flex;gap:6px;align-items:flex-start;margin-top:3px}
-.cond i{font-style:normal;width:18px;text-align:center;flex:none}
-.cond.won{color:var(--won)}.cond.lost{color:var(--lost)}.cond.refund{color:var(--warn)}
-.cond.pending.good{color:var(--good)}.cond.pending.bad{color:var(--bad)}.cond.pending.warn{color:var(--warn)}
-.ev{font-size:13px;color:var(--n2);margin-top:6px}
-.stats{margin-top:10px;display:grid;gap:7px}
-.st-h{font-size:12px;color:var(--n3);display:flex;justify-content:space-between}
-.st{display:grid;grid-template-columns:44px 1fr 44px;gap:8px;align-items:center;font-size:14px;font-variant-numeric:tabular-nums}
-.st .v{font-weight:600}.st .v.r{text-align:right}
-.st .mid{display:grid;gap:3px}
-.st .lbl{font-size:12px;color:var(--n2);text-align:center}
-.st .bars{display:grid;grid-template-columns:1fr 1fr;gap:3px;height:6px}
-.st .bh,.st .ba{background:var(--s2);border-radius:3px;overflow:hidden;display:flex}
-.st .bh{justify-content:flex-end}
-.st .bh span{background:var(--home);border-radius:3px}.st .ba span{background:var(--away);border-radius:3px}
-.mom{margin-top:8px}
-.mom svg{display:block;width:100%;height:34px}
-.mom .cap{font-size:12px;color:var(--n3);display:flex;justify-content:space-between}
-.odds{align-self:center;text-align:center;font-weight:700;font-size:16px;border-radius:8px;padding:8px 0;background:var(--s2);font-variant-numeric:tabular-nums}
-.odds.won{background:var(--won);color:#fff}.odds.lost{background:var(--lost);color:#fff}.odds.refund{background:var(--warn);color:#fff}
-.err{font-size:13px;color:var(--lost);margin-top:4px}
-.note{font-size:13px;color:var(--n3);text-align:center;margin-top:8px}
-.toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--n1);color:var(--s1);padding:10px 16px;border-radius:10px;font-size:15px;font-weight:600;max-width:calc(100% - 32px);box-shadow:0 6px 24px rgba(0,0,0,.25)}
-@media (max-width:520px){.leg{grid-template-columns:44px minmax(0,1fr) 54px;gap:8px;padding:12px}.bar h1{font-size:16px}.upd{display:none}}
+
+.pill{font-size:13px;font-weight:600;border-radius:999px;padding:2px 9px;white-space:nowrap;line-height:1.45}
+.pill.live{background:var(--pri-bg);color:var(--pri)}
+.pill.won{background:var(--won-bg);color:var(--won)}
+.pill.lost{background:var(--lost-bg);color:var(--lost)}
+
+@media (min-width:900px){
+  .wrap{display:grid;grid-template-columns:330px minmax(0,1fr);gap:20px;align-items:start;padding-top:20px}
+  .side{position:sticky;top:84px}
+  .tabs{flex-direction:column;overflow:visible;margin:12px 0 0;padding:0}
+  .tab{flex:none;width:auto}
+}
+
+/* banner + states */
+.banner{margin:12px 0 0;padding:10px 14px;border-radius:12px;font-size:14px;background:var(--lost-bg);color:var(--lost);border:1px solid var(--line2)}
+.banner.warn{background:var(--warn-bg);color:var(--warn)}
+@media (min-width:900px){.banner{margin:0 0 12px}}
+.empty{padding:36px 16px;text-align:center;color:var(--n2);font-size:15px}
+.spin{width:26px;height:26px;margin:0 auto 12px;border-radius:50%;border:3px solid var(--line2);border-top-color:var(--pri);animation:r .9s linear infinite}
+@keyframes r{to{transform:rotate(360deg)}}
+
+/* ticket summary */
+.tk{margin-top:12px;padding:14px 16px}
+@media (min-width:900px){.tk{margin-top:0}}
+.tk-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.tk-h h2{margin:0;font-size:18px;font-weight:700;line-height:1.3;min-width:0}
+.tk-meta{font-size:14px;color:var(--n2);margin-top:2px}
+.tk-n{display:grid;grid-template-columns:auto auto 1fr;gap:18px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.tk-n span{display:block;font-size:13px;color:var(--n2)}
+.tk-n b{font-size:17px;font-variant-numeric:tabular-nums}
+.tk-n .big{text-align:right}
+.tk-n .big b{font-size:22px;line-height:1.2}
+.tk-n .big b.won{color:var(--won)}
+.tk-n .big b.lost{color:var(--n3);text-decoration:line-through;text-decoration-thickness:1px}
+.seg{display:flex;gap:4px;margin-top:14px}
+.seg i{flex:1;height:6px;border-radius:3px;background:var(--line2)}
+.seg i.won{background:var(--won)}.seg i.lost{background:var(--lost)}.seg i.refund{background:var(--warn)}
+.seg i.on{background:var(--live);animation:p 1.4s infinite}
+.tk-f{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:var(--n2);margin-top:8px;font-variant-numeric:tabular-nums}
+.tk-f .lv{color:var(--live);font-weight:600}
+
+/* match list */
+.list{margin-top:12px;overflow:hidden}
+.grp{padding:9px 16px;font-size:14px;font-weight:600;color:var(--n2);background:var(--card2);border-top:1px solid var(--line)}
+.grp:first-child{border-top:0}
+.ev{border-top:1px solid var(--line)}
+.grp+.ev{border-top:0}
+.ev.won{background:linear-gradient(90deg,var(--won-bg),transparent 60%)}
+.ev.lost{background:linear-gradient(90deg,var(--lost-bg),transparent 60%)}
+.row{display:grid;grid-template-columns:52px minmax(0,1fr) 58px;column-gap:12px;row-gap:8px;padding:12px 14px 12px 8px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.clk{grid-row:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:13px;color:var(--n2);border-right:1px solid var(--line);font-variant-numeric:tabular-nums;line-height:1.35}
+.clk .ko.big{font-size:15px;color:var(--n1);font-weight:600}
+.clk .stt{font-weight:600}
+.clk .stt.live{color:var(--live);font-weight:700}
+.clk .stt.brk{color:var(--warn);font-weight:700}
+.teams{grid-row:1;min-width:0;align-self:center}
+.tr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:15px;line-height:1.55}
+.tr .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tr .sc{font-weight:700;min-width:18px;text-align:right;font-variant-numeric:tabular-nums}
+.tr.dim{color:var(--n2)}.tr.dim .sc{font-weight:500}
+.ev.on .tr .sc{color:var(--live)}
+.rc{display:inline-block;width:8px;height:11px;border-radius:2px;background:#e8243b;margin-left:6px;vertical-align:-1px}
+.odd{grid-row:1;align-self:center;height:42px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:15px;background:var(--card2);border:1px solid var(--line2);font-variant-numeric:tabular-nums}
+.odd.won{background:var(--won-bg);color:var(--won);border-color:var(--won)}
+.odd.lost{background:var(--lost-bg);color:var(--lost);border-color:var(--lost)}
+.odd.refund{background:var(--warn-bg);color:var(--warn);border-color:var(--warn)}
+.odd.good{box-shadow:inset 0 -3px 0 var(--good)}.odd.warn{box-shadow:inset 0 -3px 0 var(--warn)}.odd.bad{box-shadow:inset 0 -3px 0 var(--bad)}
+.chips{grid-column:2/4;grid-row:2;display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-width:0}
+.chip{display:inline-flex;align-items:center;gap:5px;max-width:100%;font-size:14px;font-weight:600;line-height:1.4;border-radius:7px;padding:3px 9px;background:var(--pri-bg);color:var(--pri)}
+.chip i{font-style:normal;font-weight:700}
+.chip.won{background:var(--won-bg);color:var(--won)}.chip.lost{background:var(--lost-bg);color:var(--lost)}.chip.refund{background:var(--warn-bg);color:var(--warn)}
+.bb{font-size:13px;font-weight:700;color:var(--n2);border:1px solid var(--line2);border-radius:6px;padding:2px 6px;line-height:1.35}
+.chev{margin-left:auto;flex:none;width:9px;height:9px;border-right:2px solid var(--n3);border-bottom:2px solid var(--n3);transform:rotate(45deg);margin-right:6px;margin-top:-4px;transition:transform .15s}
+.row[aria-expanded="true"] .chev{transform:rotate(-135deg);margin-top:4px}
+.lerr{grid-column:2/4;grid-row:3;font-size:13px;color:var(--lost)}
+
+/* details */
+.det{margin:0 12px 12px;padding:12px 14px;border-radius:12px;background:var(--card2);display:grid;gap:14px}
+.det h3{margin:0 0 6px;font-size:14px;font-weight:600;color:var(--n2)}
+.cd{display:flex;gap:9px;align-items:flex-start;font-size:15px;padding:3px 0}
+.cd i{flex:none;width:20px;height:20px;margin-top:1px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:700;background:var(--line2);color:var(--n1)}
+.cd.won i{background:var(--won);color:#fff}.cd.lost i{background:var(--lost);color:#fff}.cd.refund i{background:var(--warn);color:#fff}
+.cd.won{color:var(--won)}.cd.lost{color:var(--lost)}.cd.refund{color:var(--warn)}
+.cd.pending.good{color:var(--good)}.cd.pending.warn{color:var(--warn)}.cd.pending.bad{color:var(--bad)}
+.htl{font-size:14px;color:var(--n1);background:var(--card);border-radius:8px;padding:7px 10px;font-variant-numeric:tabular-nums}
+.muted{margin:0;font-size:14px;color:var(--n2)}
+.derr{margin:0;font-size:14px;color:var(--lost)}
+.tl-r{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:14px}
+.tl-r.away{flex-direction:row-reverse;text-align:right}
+.tl-m{flex:none;min-width:38px;font-weight:600;color:var(--n2);font-variant-numeric:tabular-nums}
+.tl-r.away .tl-m{text-align:right}
+.tl-x{min-width:0}
+.tl-x b{font-weight:600}
+.tl-s{flex:none;font-weight:700;background:var(--card);border-radius:6px;padding:0 7px;font-variant-numeric:tabular-nums}
+.ic-g{flex:none;width:16px;height:16px;color:var(--n1)}
+.ic-r{flex:none;width:10px;height:13px;border-radius:2px;background:#e8243b;margin:0 3px}
+.tl-d{text-align:center;font-size:13px;font-weight:600;color:var(--n2);padding:5px 0;margin:4px 0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);font-variant-numeric:tabular-nums}
+.sx-h{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:var(--n2);margin-bottom:4px}
+.sx-h span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sx-h span:last-child{text-align:right}
+.sx{padding:6px 0}
+.sx-top{display:grid;grid-template-columns:52px 1fr 52px;align-items:center;font-size:14px}
+.sx-l{text-align:center}
+.sx-v{justify-self:start;font-weight:700;padding:1px 8px;border-radius:7px;font-variant-numeric:tabular-nums}
+.sx-v.a{justify-self:end}
+.sx-v.h.hi{background:var(--home);color:var(--on-home)}.sx-v.a.hi{background:var(--away);color:var(--on-away)}
+.sx-bars{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+.sx-b{height:6px;border-radius:3px;background:var(--line);display:flex;overflow:hidden}
+.sx-b.h{justify-content:flex-end}
+.sx-b i{display:block;height:100%;border-radius:3px;opacity:.45}
+.sx-b.h i{background:var(--home)}.sx-b.a i{background:var(--away)}
+.sx-b.hi i{opacity:1}
+
+.foot{font-size:13px;color:var(--n2);text-align:center;margin:16px 0 0}
+
+/* toasts */
+.toasts{position:fixed;left:0;right:0;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;display:grid;gap:8px;justify-items:center;padding:0 16px;pointer-events:none}
+.toast{pointer-events:auto;cursor:pointer;width:100%;max-width:440px;display:flex;gap:10px;align-items:stretch;background:var(--toast);color:var(--on-toast);border-radius:12px;padding:11px 14px;box-shadow:0 10px 30px rgba(0,0,0,.35);font-size:14px;animation:tin .2s ease-out}
+.toast .tb{flex:none;width:4px;border-radius:2px;background:var(--pri)}
+.toast.won .tb{background:var(--won)}.toast.lost .tb,.toast.red .tb{background:var(--lost)}.toast.refund .tb{background:var(--warn)}.toast.goal .tb{background:var(--live)}
+.toast b{display:block;font-size:15px}
+@keyframes tin{from{transform:translateY(10px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.livei.on::before,.dot.on,.seg i.on,.spin{animation:none}.toast{animation:none}}
 </style>
 </head>
 <body>
-<div class="bar"><div class="bar-in">
-  <h1>ლაივ ბილეთები</h1>
-  <span class="upd" id="upd">…</span>
-  <button class="btn" id="bell" aria-pressed="false" title="ხმა გოლზე და შესრულებულ პოზიციაზე">🔔</button>
-  <button class="btn" id="theme" title="თემის შეცვლა">◐</button>
-</div></div>
-<main>
-  <div class="sum" id="sum"></div>
-  <div id="list"><p class="note">იტვირთება…</p></div>
-  <p class="note">მონაცემები: 365Scores, ახლდება ~20 წამში · ოფიციალური ანგარიშსწორება: Crocobet</p>
+<header class="bar"><div class="bar-in">
+  <div class="brand">
+    <h1>ლაივ ბილეთები</h1>
+    <div class="sub"><span class="livei" id="live">იტვირთება…</span><span id="upd"></span></div>
+  </div>
+  <button class="ib" id="bell" type="button" aria-pressed="false" title="ხმა გოლზე და შესრულებულ პოზიციაზე">🔕</button>
+  <button class="ib" id="theme" type="button" title="თემის შეცვლა">◐</button>
+</div></header>
+<main class="wrap">
+  <aside class="side">
+    <div class="card ov" id="ov"><div class="empty" style="padding:8px"><div class="spin"></div>იტვირთება…</div></div>
+    <nav class="tabs" id="tabs" role="tablist" aria-label="ბილეთები"></nav>
+  </aside>
+  <section class="content">
+    <div id="banner"></div>
+    <div id="view" role="tabpanel"></div>
+    <p class="foot">მონაცემები: 365Scores, ახლდება ~20 წამში · ოფიციალური ანგარიშსწორება: Crocobet</p>
+  </section>
 </main>
-<div class="toast" id="toast" hidden></div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
 <script>
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const ICON = { won:'✓', lost:'✗', refund:'↺', pending:'•' };
-const ST = { live:'ცოცხალია', won:'მოგებულია', lost:'წაგებულია' };
+const ST = { live: 'ცოცხალია', won: 'მოგებულია', lost: 'წაგებულია' };
 const TICK = 20e3, IDLE = 5 * 60e3;
-
-/* ---------- theme + alerts ---------- */
-const root = document.documentElement;
-try { const t = localStorage.getItem('theme'); if (t) root.dataset.theme = t; } catch {}
-$('#theme').onclick = () => {
-  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-  root.dataset.theme = dark ? 'light' : 'dark';
-  try { localStorage.setItem('theme', root.dataset.theme); } catch {}
+const ls = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
 };
-let alerts = false, actx = null;
-try { alerts = localStorage.getItem('alerts') === '1'; } catch {}
-const bell = $('#bell'); bell.setAttribute('aria-pressed', alerts);
+
+/* ---------- theme ---------- */
+const root = document.documentElement;
+const sysLight = () => { try { return matchMedia('(prefers-color-scheme: light)').matches; } catch { return false; } };
+function applyTheme() {
+  const light = root.dataset.theme ? root.dataset.theme === 'light' : sysLight();
+  const meta = $('meta[name="theme-color"]'); if (meta) meta.content = light ? '#374df5' : '#17181d';
+}
+{ const t = ls.get('theme'); if (t === 'light' || t === 'dark') root.dataset.theme = t; }
+applyTheme();
+$('#theme').onclick = () => {
+  const dark = root.dataset.theme ? root.dataset.theme === 'dark' : !sysLight();
+  root.dataset.theme = dark ? 'light' : 'dark';
+  ls.set('theme', root.dataset.theme); applyTheme();
+};
+
+/* ---------- sound / mute ---------- */
+// Muted = no beep, vibration or system notification. Silent toasts still show genuine changes.
+let muted = true, actx = null;
+{ const v = ls.get('muted'); muted = v === null ? ls.get('alerts') !== '1' : v === '1'; }
+const bell = $('#bell');
+function bellUI() {
+  bell.textContent = muted ? '🔕' : '🔔';
+  bell.setAttribute('aria-pressed', String(!muted));
+  bell.title = muted ? 'ხმა გამორთულია · დააჭირე ჩასართავად' : 'ხმა ჩართულია · დააჭირე გამოსართავად';
+}
+bellUI();
 bell.onclick = async () => {
-  alerts = !alerts; bell.setAttribute('aria-pressed', alerts);
-  try { localStorage.setItem('alerts', alerts ? '1' : '0'); } catch {}
-  if (alerts) {
-    try { actx = actx || new AudioContext(); } catch {}
+  muted = !muted; ls.set('muted', muted ? '1' : '0'); ls.set('alerts', muted ? '0' : '1'); bellUI();
+  if (!muted) {
+    try { actx = actx || new AudioContext(); if (actx.state === 'suspended') await actx.resume(); } catch {}
     try { if ('Notification' in window && Notification.permission === 'default') await Notification.requestPermission(); } catch {}
-    beep(660); toast('ხმა ჩართულია');
-  } else toast('ხმა გამორთულია');
+    beep(660); toast('ხმა ჩართულია', 'მხოლოდ ახალ გოლზე, წითელზე და შედეგზე');
+  } else toast('ხმა გამორთულია', '');
 };
 function beep(f = 880) {
-  if (!alerts) return;
+  if (muted) return;
   try { actx = actx || new AudioContext(); const o = actx.createOscillator(), g = actx.createGain();
     o.frequency.value = f; o.connect(g); g.connect(actx.destination); g.gain.setValueAtTime(.18, actx.currentTime);
     g.gain.exponentialRampToValueAtTime(.001, actx.currentTime + .55); o.start(); o.stop(actx.currentTime + .55); } catch {}
-  try { navigator.vibrate && navigator.vibrate(200); } catch {}
 }
-let toastT;
-function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 6000); }
-function notify(title, body, f) {
-  toast(title + ' — ' + body);
-  if (!alerts) return; beep(f);
-  try { if ('Notification' in window && Notification.permission === 'granted') new Notification(title, { body }); } catch {}
+function toast(title, body, tone = '', tkey = '') {
+  const box = $('#toasts'), el = document.createElement('div');
+  el.className = 'toast ' + tone; if (tkey) el.dataset.t = tkey;
+  el.innerHTML = `<span class="tb"></span><div><b>${esc(title)}</b>${body ? `<span>${esc(body)}</span>` : ''}</div>`;
+  box.appendChild(el); while (box.children.length > 3) box.firstChild.remove();
+  setTimeout(() => el.remove(), 7000);
+}
+function announce(list) {
+  if (!list.length) return;
+  list.sort((a, b) => a.pr - b.pr);
+  list.slice(0, 3).forEach(n => toast(n.title, n.body, n.tone, n.t));
+  if (muted) return;
+  beep(list[0].f);
+  try { navigator.vibrate && navigator.vibrate(list[0].tone === 'goal' ? [120, 60, 120] : 220); } catch {}
+  try { if ('Notification' in window && Notification.permission === 'granted') list.slice(0, 3).forEach(n => new Notification(n.title, { body: n.body, tag: n.key })); } catch {}
 }
 
 /* ---------- 365Scores parsing (the phone reads it directly, no PC needed) ---------- */
 const tbs = iso => new Date(new Date(iso).getTime() + 4 * 3600e3).toISOString().slice(11, 16);
+const tbsDate = iso => new Date(new Date(iso).getTime() + 4 * 3600e3).toISOString().slice(0, 10);
 const num = v => { const n = parseFloat(String(v)); return isNaN(n) ? 0 : n; };
 function parseMatch(g, statsJson) {
   const hid = g.homeCompetitor.id, aid = g.awayCompetitor.id;
@@ -314,30 +471,37 @@ function combine(list) {
 const LBL = { 4:'დარტყმა კარში', 24:'დიდი შანსი', 3:'დარტყმები', 8:'კუთხური', 10:'ბურთის ფლობა', 11:'შეტევები', 1:'ყვითელი ბარათი', 2:'წითელი ბარათი', 12:'ფოლი', 13:'ჯარიმის დარტყმა', 23:'მეკარის სეივი' };
 const GOALS = [4, 24, 3, 8], RESULT = [4, 24, 10, 3];
 const NEED = { btts: GOALS, total_over: GOALS, team_over: GOALS, win: RESULT, dnb: RESULT, team_both_halves: [4, 24, 3], most_cards: [1, 2, 12, 13], both_halves_over: GOALS, htft: RESULT, scorer: GOALS, player_sot: [4, 3] };
+// Two-sided comparison row; the side with more is drawn solid, the other faded.
 function statRow(key, pair) {
   const [h, a] = pair, hn = num(h), an = num(a), max = key == 10 ? 100 : Math.max(hn, an, 0.0001);
   const w = v => Math.max(0, Math.min(100, (v / max) * 100)).toFixed(0);
-  return `<div class="st"><span class="v">${esc(h)}</span>
-    <div class="mid"><div class="lbl">${LBL[key] || key}</div><div class="bars"><div class="bh"><span style="width:${w(hn)}%"></span></div><div class="ba"><span style="width:${w(an)}%"></span></div></div></div>
-    <span class="v r">${esc(a)}</span></div>`;
+  const hiH = hn > an ? ' hi' : '', hiA = an > hn ? ' hi' : '';
+  return `<div class="sx"><div class="sx-top"><span class="sx-v h${hiH}">${esc(h)}</span><span class="sx-l">${LBL[key] || key}</span><span class="sx-v a${hiA}">${esc(a)}</span></div>
+    <div class="sx-bars"><div class="sx-b h${hiH}"><i style="width:${w(hn)}%"></i></div><div class="sx-b a${hiA}"><i style="width:${w(an)}%"></i></div></div></div>`;
+}
+// Half-time line, only for legs that depend on the halves.
+function htLine(l, m) {
+  if (!m || !(m.ongoing || m.finished)) return '';
+  if (m.htScore && l.conds.some(c => ['team_both_halves', 'both_halves_over', 'htft'].includes(c.type)))
+    return `<div class="htl">I ტაიმი: ${m.htScore.home}–${m.htScore.away}${m.secondHalf ? ` · II ტაიმი: ${m.h - m.htScore.home}–${m.a - m.htScore.away}` : ''}</div>`;
+  return '';
 }
 function statsBlock(l, m) {
   if (!m || !(m.ongoing || m.finished)) return '';
   let keys = [...new Set(l.conds.flatMap(c => NEED[c.type] || []))].filter(k => m.stats[k]);
   if (keys.includes(12)) keys = keys.filter(k => k !== 13);
   const rows = keys.slice(0, 5).map(k => statRow(k, m.stats[k])).join('');
-  let ht = '';
-  if (m.htScore && l.conds.some(c => ['team_both_halves', 'both_halves_over', 'htft'].includes(c.type)))
-    ht = `<div class="ev">I ტაიმი: ${m.htScore.home}–${m.htScore.away}${m.secondHalf ? ` · II ტაიმი: ${m.h - m.htScore.home}–${m.a - m.htScore.away}` : ''}</div>`;
-  if (!rows && !ht) return '';
-  return `${ht}<div class="stats">${rows ? `<div class="st-h"><span>${esc(l.names.home)}</span><span>სტატისტიკა</span><span>${esc(l.names.away)}</span></div>${rows}` : ''}</div>`;
+  if (!rows) return '';
+  return `<div class="stats"><h3>სტატისტიკა</h3><div class="sx-h"><span>${esc(l.names.home)}</span><span>${esc(l.names.away)}</span></div>${rows}</div>`;
 }
 
 /* ---------- state ---------- */
-let CFG = null; const cache = new Map(); let prev = null;
+let CFG = null, cfgErr = null; const cache = new Map();
+let lastOk = 0, lastErr = 0, lastErrMsg = '';
 async function loadConfig() {
   const r = await fetch('tickets.json?v=' + Date.now(), { cache: 'no-store' });
-  CFG = await r.json();
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  CFG = await r.json(); cfgErr = null;
 }
 const API = 'https://webws.365scores.com/web/', Q = 'appTypeId=5&langId=1&timezoneName=UTC&userCountryId=-1';
 async function getJSON(u) {
@@ -360,8 +524,11 @@ async function refresh(force) {
       const live = game.statusGroup === 3 || game.statusGroup === 4;
       const stats = live ? await getJSON(API + 'game/stats/?' + Q + '&games=' + gid).catch(() => c?.stats || null) : null;
       const m = parseMatch(game, stats);
-      cache.set(id, { at: now, m, stats, err: null, final: m.finished && !!c?.m?.finished }); paint();
-    } catch (e) { cache.set(id, { ...(c || {}), at: now, m: c?.m || null, err: String(e.message || e), final: false }); paint(); }
+      cache.set(id, { at: now, m, stats, err: null, final: m.finished && !!c?.m?.finished }); lastOk = Date.now(); paint();
+    } catch (e) {
+      cache.set(id, { ...(c || {}), at: now, m: c?.m || null, err: String(e.message || e), final: false });
+      lastErr = Date.now(); lastErrMsg = String(e.message || e); paint();
+    }
   }));
 }
 
@@ -380,76 +547,263 @@ function build() {
     return { ...t, key: t.key || 't' + (ti + 1), legs, status: lost ? 'lost' : settled === legs.length ? 'won' : 'live', settled, eff, potential: t.stake * eff };
   });
 }
+
+/* ---------- alerts: only real changes seen while the page is open ---------- */
+// Each leg and match is recorded silently (baseline) the first time real data for it arrives in this
+// page session. An alert fires only when a later update changes it, its ticket was still pending
+// before that update, and the event key is not yet in the persisted "seen" set.
+const SEEN_KEY = 'lb-seen-v2';
+let seenList = [];
+{ try { const v = JSON.parse(ls.get(SEEN_KEY) || '[]'); if (Array.isArray(v)) seenList = v.filter(x => typeof x === 'string'); } catch {} }
+const seen = new Set(seenList);
+let seenDirty = false;
+function markSeen(k) {
+  if (seen.has(k)) return false;
+  seen.add(k); seenList.push(k); seenDirty = true;
+  if (seenList.length > 600) for (const x of seenList.splice(0, seenList.length - 600)) seen.delete(x);
+  return true;
+}
+const obsLeg = new Map(), obsMatch = new Map();
+const legKey = (t, l, i) => t.key + '|' + l.id + '|' + i;
+function ticketWasPending(t) {
+  const st = t.legs.map((l, i) => obsLeg.get(legKey(t, l, i)));
+  if (st.some(s => s === 'lost')) return false;
+  if (st.every(s => s && s !== 'pending')) return false;
+  return true;
+}
 function diff(state) {
-  if (!prev) return;
-  const goals = {}, legs = {};
-  for (const t of prev) for (const l of t.legs) { if (l.m) goals[l.id] = l.m.h + l.m.a; legs[t.key + l.id] = l.status; }
-  const seen = new Set();
-  for (const t of state) for (const l of t.legs) {
-    const m = l.m;
-    if (m && !seen.has(l.id) && goals[l.id] !== undefined && m.h + m.a > goals[l.id]) {
-      seen.add(l.id); const g = m.goals[m.goals.length - 1];
-      notify(`⚽ გოლი${g ? ' ' + g.min + "'" : ''}`, `${l.names.home} ${m.h}–${m.a} ${l.names.away}`, 880);
-    }
-    const was = legs[t.key + l.id];
-    if (was && was !== l.status && l.status !== 'pending')
-      notify(l.status === 'won' ? '✓ შესრულდა' : l.status === 'lost' ? '✗ ჩავარდა' : '↺ ბრუნდება', `${t.name}: ${l.names.home} – ${l.names.away}`, l.status === 'won' ? 1046 : 330);
+  const out = [], pendingMatches = new Set(), wasPending = new Map();
+  for (const t of state) { const p = ticketWasPending(t); wasPending.set(t.key, p); if (p) for (const l of t.legs) pendingMatches.add(l.id); }
+  // legs and tickets
+  for (const t of state) {
+    const trans = [];
+    t.legs.forEach((l, i) => {
+      if (!l.m) return;
+      const k = legKey(t, l, i), before = obsLeg.get(k), sk = 'l|' + k + '|' + l.status;
+      obsLeg.set(k, l.status);
+      if (l.status === 'pending') return;
+      if (before === undefined || before !== 'pending' || !wasPending.get(t.key)) { markSeen(sk); return; }
+      if (markSeen(sk)) trans.push(l);
+    });
+    if (!trans.length) continue;
+    const vs = l => `${l.names.home} – ${l.names.away}`;
+    const lostLeg = trans.find(l => l.status === 'lost');
+    if (lostLeg) { out.push({ pr: 1, tone: 'lost', f: 330, t: t.key, key: 'lost' + t.key, title: '✗ ჩავარდა', body: `${t.name}: ${vs(lostLeg)}` }); continue; }
+    if (t.status === 'won' && markSeen('t|' + t.key + '|won')) { out.push({ pr: 0, tone: 'won', f: 1046, t: t.key, key: 'won' + t.key, title: 'ბილეთი მოიგო', body: `${t.name} · ${t.potential.toFixed(2)} ₾` }); continue; }
+    for (const l of trans) out.push(l.status === 'won'
+      ? { pr: 2, tone: 'won', f: 1046, t: t.key, key: 'w' + t.key + l.id, title: '✓ შესრულდა', body: `${t.name}: ${vs(l)} · ${t.settled}/${t.legs.length}` }
+      : { pr: 2, tone: 'refund', f: 520, t: t.key, key: 'r' + t.key + l.id, title: '↺ ბრუნდება', body: `${t.name}: ${vs(l)}` });
   }
+  // goals and red cards, once per match, only while one of its tickets is still pending
+  const done = new Set();
+  for (const t of state) for (const l of t.legs) {
+    const m = l.m; if (!m || done.has(l.id)) continue; done.add(l.id);
+    const reds = { home: m.reds.filter(r => r.side === 'home').length, away: m.reds.filter(r => r.side === 'away').length };
+    const o = obsMatch.get(l.id); obsMatch.set(l.id, { h: m.h, a: m.a, reds });
+    const gk = 'g|' + l.id + '|' + m.h + '-' + m.a;
+    if (!o || !pendingMatches.has(l.id)) {
+      if (m.started) { markSeen(gk); for (const s of ['home', 'away']) if (reds[s]) markSeen('r|' + l.id + '|' + s + '|' + reds[s]); }
+      continue;
+    }
+    const vs = `${l.names.home} ${m.h}–${m.a} ${l.names.away}`;
+    if (m.h + m.a > o.h + o.a && markSeen(gk)) {
+      const g = m.goals[m.goals.length - 1];
+      out.push({ pr: 3, tone: 'goal', f: 880, t: t.key, key: gk, title: `გოლი${g ? ' ' + g.min + "'" : ''}`, body: vs + (g && g.scorer ? ' · ' + g.scorer : '') });
+    } else if (m.started) markSeen(gk);
+    for (const s of ['home', 'away']) if (reds[s] > (o.reds?.[s] || 0) && markSeen('r|' + l.id + '|' + s + '|' + reds[s])) {
+      const r = m.reds.filter(x => x.side === s).pop();
+      out.push({ pr: 4, tone: 'red', f: 440, t: t.key, key: 'r' + l.id + s + reds[s], title: `წითელი ბარათი${r ? ' ' + r.min + "'" : ''}`, body: `${l.names[s]} · ${vs}` });
+    }
+  }
+  if (seenDirty) { ls.set(SEEN_KEY, JSON.stringify(seenList)); seenDirty = false; }
+  announce(out);
 }
 
 /* ---------- render ---------- */
-function legRow(l) {
-  const m = l.m;
-  const clock = m ? `<div class="clock ${m.ongoing ? 'on' : ''}">${esc(m.clock)}</div>` : '<div class="clock">…</div>';
-  const sc = s => m && (m.started || m.finished) ? `<b>${s === 'home' ? m.h : m.a}</b>` : '<b></b>';
-  const conds = l.conds.map(c => `<div class="cond ${c.s} ${c.tone || ''}"><i>${ICON[c.s]}</i><span>${esc(c.text)}</span></div>`).join('');
-  let ev = '';
-  if (m) {
-    const parts = m.goals.map(g => `⚽ ${esc(g.min)}' ${esc(l.names[g.side])}${g.scorer ? ' · ' + esc(g.scorer) : ''}${g.own ? ' (ავტოგოლი)' : ''}`);
-    for (const r of m.reds) parts.push(`🟥 ${esc(r.min)}' ${esc(l.names[r.side])}`);
-    if (parts.length) ev = `<div class="ev">${parts.join(' · ')}</div>`;
+let sel = null, lastState = null, tabsInit = false;
+const open = new Map();
+const hms = ts => new Date(ts).toLocaleTimeString('en-GB', { hour12: false });
+const ERR = e => /timeout/i.test(e) ? 'პასუხი 12 წამში ვერ მივიღეთ' : /fetch|network/i.test(e) ? 'ქსელის შეცდომა' : e;
+function pickSel(state) {
+  if (sel && state.some(t => t.key === sel)) return sel;
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (h && state.some(t => t.key === h)) return h;
+  return (state.find(t => t.status === 'live') || state[0])?.key || null;
+}
+const legTone = l => l.status !== 'pending' || !l.m ? '' : l.conds.some(c => c.tone === 'bad') ? 'bad' : l.conds.some(c => c.tone === 'warn') ? 'warn' : l.conds.some(c => c.tone === 'good') ? 'good' : '';
+const dotCls = l => l.status === 'pending' ? (l.m?.ongoing ? 'on' : '') : l.status;
+function overview(state) {
+  const c = { won: 0, live: 0, lost: 0 }; let pot = 0, won = 0;
+  for (const t of state) { c[t.status]++; if (t.status === 'live') pot += t.potential; if (t.status === 'won') won += t.potential; }
+  const loading = state.some(t => t.legs.some(l => !l.m && !l.err));
+  return `<div class="ov-h"><div><h2>ყველა ბილეთი</h2><span class="cap">${state.length} ბილეთი${loading ? ' · იტვირთება…' : ''}</span></div>
+      <div class="ov-pot"><b>${pot.toFixed(2)} ₾</b><span>შესაძლო მოგება</span></div></div>
+    <div class="ov-g"><div class="won"><b>${c.won}</b><span>მოგებული</span></div><div class="live"><b>${c.live}</b><span>მიმდინარე</span></div><div class="lost"><b>${c.lost}</b><span>წაგებული</span></div></div>
+    ${won > 0 ? `<div class="ov-won">მოგებული ბილეთებიდან: <b>${won.toFixed(2)} ₾</b></div>` : ''}`;
+}
+function tabsView(state) {
+  return state.map(t => {
+    const on = t.key === sel;
+    return `<button class="tab${on ? ' sel' : ''}" type="button" role="tab" aria-selected="${on}" data-t="${esc(t.key)}">
+      <span class="tab-n">${esc(t.name)}</span>
+      <span class="tab-m">${t.stake} ₾ × ${t.odds.toFixed(2)}</span>
+      <span class="tab-p ${t.status}">${t.potential.toFixed(2)} ₾</span>
+      <span class="tab-f"><span class="pill ${t.status}">${ST[t.status]}</span><span class="dots">${t.legs.map(l => `<span class="dot ${dotCls(l)}"></span>`).join('')}</span></span>
+    </button>`;
+  }).join('');
+}
+function clockCol(m) {
+  if (!m) return '<div class="clk"><span class="ko">…</span></div>';
+  const ko = tbs(m.utc);
+  if (m.cancelled) return `<div class="clk"><span class="ko">${ko}</span><span class="stt brk">${esc(m.clock)}</span></div>`;
+  if (m.finished) return `<div class="clk"><span class="ko">${ko}</span><span class="stt">${esc(m.clock)}</span></div>`;
+  if (m.ongoing) {
+    const brk = m.firstHalfOver && !m.secondHalf;
+    return `<div class="clk"><span class="ko">${ko}</span><span class="stt ${brk ? 'brk' : 'live'}">${esc(m.clock)}</span></div>`;
   }
-  return `<div class="leg ${l.status}">${clock}
-    <div style="min-width:0">
-      ${l.comp ? `<div class="comp">${esc(l.comp)}</div>` : ''}
-      <div class="tm"><span>${esc(l.names.home)}</span>${sc('home')}</div>
-      <div class="tm"><span>${esc(l.names.away)}</span>${sc('away')}</div>
-      <span class="bet">${esc(l.bet)}</span>${conds}${ev}${statsBlock(l, m)}
-      ${l.err ? `<div class="err">მონაცემები ვერ ჩაიტვირთა (${esc(l.err)}) · ვცდი ხელახლა</div>` : ''}
+  const d = tbsDate(m.utc), otherDay = d !== tbsDate(new Date().toISOString());
+  return `<div class="clk"><span class="ko big">${ko}</span>${otherDay ? `<span class="stt">${d.slice(8, 10)}.${d.slice(5, 7)}</span>` : ''}</div>`;
+}
+function chipsFor(l) {
+  const text = String(l.bet || ''), bb = /^BB:\s*/i.test(text);
+  const parts = text.replace(/^BB:\s*/i, '').split(/\s\+\s/).map(s => s.trim()).filter(Boolean);
+  const tint = !!l.m && parts.length === l.conds.length;
+  return (bb ? '<span class="bb">BB</span>' : '') + parts.map((p, j) => {
+    const s = tint ? l.conds[j].s : '';
+    return `<span class="chip ${s}">${s && s !== 'pending' ? `<i>${ICON[s]}</i>` : ''}${esc(p)}</span>`;
+  }).join('');
+}
+const BALL = '<svg class="ic-g" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.7l2.7 1.95-1.03 3.15H6.33L5.3 6.65z" fill="currentColor"/></svg>';
+function timeline(l, m) {
+  if (!m.started) return m.cancelled ? '' : `<p class="muted">მატჩი იწყება ${tbs(m.utc)}-ზე (თბილისის დრო)</p>`;
+  const t = s => { const [b, x] = String(s).split('+'); return (parseFloat(b) || 0) + (parseFloat(x) || 0) / 100; };
+  const evs = [...m.goals.map(g => ({ ...g, k: 'g' })), ...m.reds.map(r => ({ ...r, k: 'r' }))]
+    .map((e, i) => ({ ...e, i, t: t(e.min) })).sort((a, b) => a.t - b.t || a.i - b.i);
+  const htDiv = m.htScore ? `<div class="tl-d">შესვენება · ${m.htScore.home}–${m.htScore.away}</div>` : '';
+  let hs = 0, as = 0, htDone = false; const rows = [];
+  for (const e of evs) {
+    if (!htDone && htDiv && e.t > 45.99) { rows.push(htDiv); htDone = true; }
+    if (e.k === 'g') {
+      if (e.side === 'home') hs++; else as++;
+      rows.push(`<div class="tl-r ${e.side}"><span class="tl-m">${esc(e.min)}'</span>${BALL}<span class="tl-x"><b>${esc(e.scorer || 'გოლი')}</b>${e.own ? ' (ავტოგოლი)' : ''}</span><span class="tl-s">${hs}–${as}</span></div>`);
+    } else rows.push(`<div class="tl-r ${e.side}"><span class="tl-m">${esc(e.min)}'</span><span class="ic-r" aria-hidden="true"></span><span class="tl-x">წითელი ბარათი · ${esc(l.names[e.side])}</span></div>`);
+  }
+  if (!htDone && htDiv) rows.push(htDiv);
+  if (m.finished) rows.push(`<div class="tl-d">დასრულდა · ${m.h}–${m.a}</div>`);
+  if (!evs.length && !m.finished) rows.push('<p class="muted">გოლი და წითელი ბარათი ჯერ არ არის</p>');
+  return `<div><h3>მოვლენები</h3>${rows.join('')}</div>`;
+}
+function details(l) {
+  const m = l.m;
+  const conds = `<div><h3>პირობები</h3>${l.conds.map(c => `<div class="cd ${c.s} ${c.s === 'pending' ? c.tone || '' : ''}"><i>${ICON[c.s]}</i><span>${esc(c.text)}</span></div>`).join('')}</div>`;
+  if (!m) return conds + (l.err ? `<p class="derr">მონაცემები ვერ ჩაიტვირთა (${esc(ERR(l.err))}) · ვცდი ხელახლა</p>` : '<p class="muted">მონაცემები ჯერ არ არის · იტვირთება…</p>');
+  return conds + htLine(l, m) + timeline(l, m) + statsBlock(l, m)
+    + (l.err ? `<p class="derr">ბოლო განახლება ვერ მოხერხდა (${esc(ERR(l.err))}) · ნაჩვენებია წინა მონაცემები</p>` : '');
+}
+function legRow(t, l, i) {
+  const m = l.m, k = legKey(t, l, i), isOpen = open.has(k) ? open.get(k) : !!m?.ongoing;
+  const fin = m && m.finished, started = m && m.started;
+  const lose = s => fin && (s === 'home' ? m.h < m.a : m.a < m.h);
+  const reds = s => m ? '<i class="rc" aria-label="წითელი ბარათი"></i>'.repeat(m.reds.filter(r => r.side === s).length) : '';
+  const team = s => `<div class="tr${lose(s) ? ' dim' : ''}"><span class="nm">${esc(l.names[s])}${reds(s)}</span><b class="sc">${started ? (s === 'home' ? m.h : m.a) : ''}</b></div>`;
+  return `<div class="ev ${l.status}${m?.ongoing ? ' on' : ''}" data-k="${esc(k)}">
+    <div class="row" role="button" tabindex="0" aria-expanded="${isOpen}">
+      ${clockCol(m)}
+      <div class="teams">${team('home')}${team('away')}</div>
+      <div class="odd ${l.status} ${legTone(l)}">${l.odds.toFixed(2)}</div>
+      <div class="chips">${chipsFor(l)}<span class="chev" aria-hidden="true"></span></div>
+      ${!m && l.err ? '<div class="lerr">მონაცემები ვერ ჩაიტვირთა · ვცდი ხელახლა</div>' : ''}
     </div>
-    <div class="odds ${l.status}">${l.odds.toFixed(2)}</div></div>`;
+    ${isOpen ? `<div class="det">${details(l)}</div>` : ''}
+  </div>`;
+}
+function ticketView(t) {
+  const legs = t.legs.map((l, i) => ({ l, i })).sort((a, b) => (a.l.m?.utc || '').localeCompare(b.l.m?.utc || ''));
+  const groups = [];
+  for (const x of legs) { const c = x.l.comp || ''; let g = groups.find(g => g.c === c); if (!g) groups.push(g = { c, items: [] }); g.items.push(x); }
+  const liveN = t.legs.filter(l => l.m?.ongoing).length;
+  const next = t.legs.filter(l => l.m && !l.m.started && !l.m.cancelled).map(l => l.m.utc).sort()[0];
+  const potLbl = t.status === 'won' ? 'მოგება' : 'შესაძლო მოგება';
+  const potCls = t.status === 'won' ? 'won' : t.status === 'lost' ? 'lost' : '';
+  const effNote = t.legs.some(l => l.status === 'refund') ? ` · ეფექტური ${t.eff.toFixed(2)}` : '';
+  return `<div class="card tk">
+      <div class="tk-h"><h2>${esc(t.name)}</h2><span class="pill ${t.status}">${ST[t.status]}</span></div>
+      ${t.placed ? `<div class="tk-meta">${esc(t.placed)}</div>` : ''}
+      <div class="tk-n"><div><span>ფსონი</span><b>${t.stake} ₾</b></div><div><span>კოეფიციენტი</span><b>${t.odds.toFixed(2)}</b></div>
+        <div class="big"><span>${potLbl}</span><b class="${potCls}">${t.potential.toFixed(2)} ₾</b></div></div>
+      <div class="seg">${legs.map(x => `<i class="${dotCls(x.l)}"></i>`).join('')}</div>
+      <div class="tk-f"><span>${t.settled}/${t.legs.length} დასრულდა${effNote}</span>${liveN ? `<span class="lv">ლაივში ${liveN}</span>` : next ? `<span>შემდეგი ${tbs(next)}</span>` : ''}</div>
+    </div>
+    <div class="card list">${groups.map(g => `${g.c ? `<div class="grp">${esc(g.c)}</div>` : ''}${g.items.map(x => legRow(t, x.l, x.i)).join('')}`).join('')}</div>`;
+}
+function bannerView() {
+  if (!CFG && cfgErr) return `<div class="banner">ბილეთების ფაილი ვერ ჩაიტვირთა (${esc(ERR(cfgErr))}) · ვცდი ხელახლა</div>`;
+  if (navigator.onLine === false) return '<div class="banner">ინტერნეტი არ არის · ნაჩვენებია ბოლო მონაცემები</div>';
+  if (lastErr && lastErr > lastOk && (!lastOk || lastErr - lastOk > 45e3))
+    return `<div class="banner warn">365Scores არ პასუხობს (${esc(ERR(lastErrMsg))})${lastOk ? ' · ბოლო განახლება ' + hms(lastOk) : ''} · ვცდი ხელახლა</div>`;
+  return '';
 }
 function render(state) {
-  $('#upd').textContent = new Date().toLocaleTimeString('en-GB', { hour12: false });
-  $('#sum').innerHTML = state.map(t => {
-    const dots = t.legs.map(l => `<span class="dot ${l.status === 'pending' ? (l.m?.ongoing ? 'on' : '') : l.status}"></span>`).join('');
-    return `<a class="card" href="#${t.key}"><div class="t"><span>${esc(t.name)}</span><span class="pill ${t.status}">${ST[t.status]}</span></div>
-      <div class="money">${t.status === 'lost' ? '0.00' : t.potential.toFixed(2)} ₾</div>
-      <div class="sub">${t.stake} ₾ × ${t.eff.toFixed(2)} · ${t.settled}/${t.legs.length} დასრულდა</div><div class="dots">${dots}</div></a>`;
-  }).join('');
-  $('#list').innerHTML = state.map(t => {
-    const legs = [...t.legs].sort((a, b) => (a.m?.utc || '').localeCompare(b.m?.utc || ''));
-    return `<section id="${t.key}"><div class="sec-h"><h2>${esc(t.name)} <span class="pill ${t.status}">${ST[t.status]}</span></h2>
-      <span class="meta">${esc(t.placed)} · ${t.stake} ₾ × ${t.odds.toFixed(2)}</span></div>
-      <div class="legs">${legs.map(legRow).join('')}</div></section>`;
-  }).join('');
+  if (!state) {
+    $('#banner').innerHTML = bannerView();
+    if (!CFG) { $('#view').innerHTML = cfgErr ? '' : '<div class="card empty"><div class="spin"></div>იტვირთება…</div>'; if (cfgErr) { $('#ov').innerHTML = '<div class="empty" style="padding:8px">მონაცემები არ არის</div>'; $('#live').textContent = 'კავშირი არ არის'; } }
+    return;
+  }
+  lastState = state; sel = pickSel(state);
+  const ms = new Map(); for (const t of state) for (const l of t.legs) if (l.m) ms.set(l.id, l.m);
+  const all = [...ms.values()], liveN = all.filter(m => m.ongoing).length;
+  const next = all.filter(m => !m.started && !m.cancelled).map(m => m.utc).sort()[0];
+  const lv = $('#live'); lv.className = 'livei' + (liveN ? ' on' : '');
+  lv.textContent = liveN ? `ლაივში ${liveN} მატჩი` : next ? `შემდეგი ${tbs(next)}` : ms.size ? 'ლაივ მატჩი არ არის' : 'იტვირთება…';
+  $('#upd').textContent = lastOk ? 'განახლდა ' + hms(lastOk) : '';
+  $('#ov').innerHTML = state.length ? overview(state) : '<div class="empty" style="padding:8px">ბილეთები ჯერ არ არის</div>';
+  const tabs = $('#tabs'), sl = tabs.scrollLeft; tabs.innerHTML = tabsView(state); tabs.scrollLeft = sl;
+  if (!tabsInit) { tabsInit = true; const el = [...tabs.children].find(x => x.dataset.t === sel); if (el && el.offsetLeft + el.offsetWidth > tabs.clientWidth) tabs.scrollLeft = el.offsetLeft - 16; }
+  $('#banner').innerHTML = bannerView();
+  const t = state.find(x => x.key === sel);
+  $('#view').innerHTML = t ? ticketView(t) : '<div class="card empty">ბილეთები ჯერ არ არის</div>';
 }
+function selectTicket(k) {
+  if (!lastState || !lastState.some(t => t.key === k)) return;
+  sel = k; try { history.replaceState(null, '', '#' + k); } catch {}
+  render(lastState);
+  const el = [...document.querySelectorAll('.tab')].find(x => x.dataset.t === k), tabs = $('#tabs');
+  if (el && tabs.scrollWidth > tabs.clientWidth) tabs.scrollTo({ left: Math.max(0, el.offsetLeft - 16), behavior: 'smooth' });
+  const v = $('#view'); if (v.getBoundingClientRect().top < 0) v.scrollIntoView({ block: 'start' });
+}
+function toggleRow(row) {
+  const k = row.closest('.ev')?.dataset.k; if (!k) return;
+  open.set(k, row.getAttribute('aria-expanded') !== 'true');
+  if (lastState) render(lastState);
+}
+document.addEventListener('click', e => {
+  const tab = e.target.closest('.tab'); if (tab) return selectTicket(tab.dataset.t);
+  const row = e.target.closest('.row'); if (row) return toggleRow(row);
+  const ts = e.target.closest('.toast'); if (ts) { if (ts.dataset.t) selectTicket(ts.dataset.t); ts.remove(); }
+});
+document.addEventListener('keydown', e => {
+  const row = e.target.closest && e.target.closest('.row');
+  if (row && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggleRow(row); }
+});
+window.addEventListener('hashchange', () => selectTicket(decodeURIComponent(location.hash.slice(1))));
 
 // Draw as soon as each match arrives, so one slow response never blanks the page.
 let paintT = 0;
-function paint() { clearTimeout(paintT); paintT = setTimeout(() => { const s = build(); diff(s); prev = s; render(s); }, 60); }
+function paint() { clearTimeout(paintT); paintT = setTimeout(() => { if (!CFG) return render(null); const s = build(); diff(s); render(s); }, 60); }
 let busy = false, busySince = 0, fails = 0;
 async function tick(force) {
   if (busy && Date.now() - busySince < 30e3) return; busy = true; busySince = Date.now();
   try {
     if (!CFG) await loadConfig(); paint(); await refresh(force); paint();
     const anyOk = [...cache.values()].some(c => !c.err); fails = anyOk ? 0 : fails + 1;
-  } catch (e) { fails++; $('#upd').textContent = 'კავშირი არ არის'; }
+  } catch (e) { fails++; if (!CFG) cfgErr = String(e.message || e); render(CFG ? lastState : null); }
   finally { busy = false; }
 }
+render(null);
 tick(true); setInterval(() => tick(false), 10e3);
 setInterval(() => { loadConfig().catch(() => {}); }, 3 * 60e3);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) tick(true); });
+window.addEventListener('online', () => tick(true));
 </script>
 </body>
 </html>
