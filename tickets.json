@@ -564,6 +564,69 @@
  },
  "tickets": [
   {
+   "key": "t8",
+   "placed": "13 ოქტ 22:50 · დადებულია · #90628473",
+   "stake": 5,
+   "odds": 132,
+   "name": "ბილეთი D · 5 ₾",
+   "legs": [
+    {
+     "fotmob": "6106267",
+     "bet": "ტაიმი/მატჩი X/1",
+     "odds": 5,
+     "conds": [
+      {
+       "type": "htft",
+       "ht": "X",
+       "ft": "home"
+      }
+     ]
+    },
+    {
+     "fotmob": "6106338",
+     "bet": "I/II ტაიმი ორივე გუნდი გაიტანს კი/კი",
+     "odds": 6.6,
+     "conds": [
+      {
+       "type": "team_both_halves",
+       "side": "home"
+      },
+      {
+       "type": "team_both_halves",
+       "side": "away"
+      }
+     ]
+    },
+    {
+     "fotmob": "6106323",
+     "bet": "A. Nusa კარში დარტყმები 2+",
+     "odds": 2.5,
+     "conds": [
+      {
+       "type": "player_sot",
+       "side": "home",
+       "name": "Nusa",
+       "line": 1.5
+      }
+     ]
+    },
+    {
+     "fotmob": "6106260",
+     "bet": "M. Merino კარში დარტყმები 1+",
+     "odds": 1.6,
+     "conds": [
+      {
+       "type": "player_sot",
+       "side": "home",
+       "name": "Merino",
+       "line": 0.5
+      }
+     ]
+    }
+   ],
+   "date": "2026-10-13"
+  },
+  {
    "key": "t7",
    "placed": "13 ოქტ 17:05 · დადებულია",
    "stake": 5,
