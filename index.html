@@ -86,7 +86,7 @@ button{font:inherit;color:inherit}
 /* ticket tabs */
 .tabs{position:relative;display:flex;gap:8px;overflow-x:auto;margin:12px -16px 0;padding:0 16px 4px;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 172px;scroll-snap-align:start;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;display:grid;gap:3px;box-shadow:var(--shadow)}
+.tab{flex:0 0 186px;scroll-snap-align:start;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;display:grid;gap:3px;box-shadow:var(--shadow)}
 .tab.sel{border-color:var(--pri);box-shadow:inset 0 0 0 1px var(--pri)}
 .tab-n{font-weight:600;font-size:14px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tab-m{font-size:13px;color:var(--n2);font-variant-numeric:tabular-nums}
@@ -98,6 +98,32 @@ button{font:inherit;color:inherit}
 .dot{width:9px;height:9px;border-radius:50%;background:var(--line2)}
 .dot.won{background:var(--won)}.dot.lost{background:var(--lost)}.dot.refund{background:var(--warn)}
 .dot.on{background:var(--live);animation:p 1.4s infinite}
+.dot.pd{background:var(--pri)}
+
+/* date switcher */
+.dates{position:relative;display:flex;gap:8px;overflow-x:auto;margin:0 -16px 12px;padding:0 16px 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.dates::-webkit-scrollbar{display:none}
+.dt{flex:none;min-width:138px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer;display:grid;gap:2px;box-shadow:var(--shadow)}
+.dt.sel{background:var(--pri-bg);border-color:var(--pri);box-shadow:inset 0 0 0 1px var(--pri)}
+.dt-t{display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:700;font-size:15px;line-height:1.35}
+.dt-s{font-size:13px;color:var(--n2);white-space:nowrap}
+.dt .dots{gap:3px}
+.dt:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
+
+/* crests */
+.cr{position:relative;flex:none;width:22px;height:22px;display:inline-grid;place-items:center}
+.cr img{width:100%;height:100%;object-fit:contain;display:block}
+.cr.nf{border-radius:50%;background:var(--line2);color:var(--n2);font-size:12px;font-weight:700;line-height:1}
+.cr.nf::before{content:attr(data-i)}
+.cr.sm{width:18px;height:18px}
+.cr.sm.nf{font-size:10px}
+.cr.cp{width:20px;height:20px}
+.cr.cp.nf{border-radius:5px}
+.tab-r{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tab-c{display:flex;flex:none}
+.tab-c .cr{margin-left:-5px;border-radius:50%;background:var(--card);box-shadow:0 0 0 2px var(--card)}
+.tab-c .cr:first-child{margin-left:0}
+.tab-c .cr.nf{background:var(--card2);color:var(--n2)}
 
 .pill{font-size:13px;font-weight:600;border-radius:999px;padding:2px 9px;white-space:nowrap;line-height:1.45}
 .pill.live{background:var(--pri-bg);color:var(--pri)}
@@ -109,6 +135,7 @@ button{font:inherit;color:inherit}
   .side{position:sticky;top:84px}
   .tabs{flex-direction:column;overflow:visible;margin:12px 0 0;padding:0}
   .tab{flex:none;width:auto}
+  .dates{grid-column:1/-1;margin:0;padding:0}
 }
 
 /* banner + states */
@@ -141,7 +168,7 @@ button{font:inherit;color:inherit}
 
 /* match list */
 .list{margin-top:12px;overflow:hidden}
-.grp{padding:9px 16px;font-size:14px;font-weight:600;color:var(--n2);background:var(--card2);border-top:1px solid var(--line)}
+.grp{display:flex;align-items:center;gap:8px;padding:9px 16px;font-size:14px;font-weight:600;color:var(--n2);background:var(--card2);border-top:1px solid var(--line)}
 .grp:first-child{border-top:0}
 .ev{border-top:1px solid var(--line)}
 .grp+.ev{border-top:0}
@@ -153,13 +180,14 @@ button{font:inherit;color:inherit}
 .clk .stt{font-weight:600}
 .clk .stt.live{color:var(--live);font-weight:700}
 .clk .stt.brk{color:var(--warn);font-weight:700}
-.teams{grid-row:1;min-width:0;align-self:center}
-.tr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:15px;line-height:1.55}
-.tr .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.teams{grid-row:1;min-width:0;align-self:center;display:grid;gap:5px}
+.tr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:15px;line-height:1.4;min-height:24px}
+.tr .nm{display:flex;align-items:center;gap:8px;min-width:0}
+.tr .tn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tr .sc{font-weight:700;min-width:18px;text-align:right;font-variant-numeric:tabular-nums}
 .tr.dim{color:var(--n2)}.tr.dim .sc{font-weight:500}
 .ev.on .tr .sc{color:var(--live)}
-.rc{display:inline-block;width:8px;height:11px;border-radius:2px;background:#e8243b;margin-left:6px;vertical-align:-1px}
+.rc{flex:none;display:inline-block;width:8px;height:11px;border-radius:2px;background:#e8243b;margin-left:-2px}
 .odd{grid-row:1;align-self:center;height:42px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:15px;background:var(--card2);border:1px solid var(--line2);font-variant-numeric:tabular-nums}
 .odd.won{background:var(--won-bg);color:var(--won);border-color:var(--won)}
 .odd.lost{background:var(--lost-bg);color:var(--lost);border-color:var(--lost)}
@@ -173,6 +201,7 @@ button{font:inherit;color:inherit}
 .chev{margin-left:auto;flex:none;width:9px;height:9px;border-right:2px solid var(--n3);border-bottom:2px solid var(--n3);transform:rotate(45deg);margin-right:6px;margin-top:-4px;transition:transform .15s}
 .row[aria-expanded="true"] .chev{transform:rotate(-135deg);margin-top:4px}
 .lerr{grid-column:2/4;grid-row:3;font-size:13px;color:var(--lost)}
+.lerr.idle{color:var(--n2)}
 
 /* details */
 .det{margin:0 12px 12px;padding:12px 14px;border-radius:12px;background:var(--card2);display:grid;gap:14px}
@@ -196,8 +225,8 @@ button{font:inherit;color:inherit}
 .ic-r{flex:none;width:10px;height:13px;border-radius:2px;background:#e8243b;margin:0 3px}
 .tl-d{text-align:center;font-size:13px;font-weight:600;color:var(--n2);padding:5px 0;margin:4px 0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);font-variant-numeric:tabular-nums}
 .sx-h{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:var(--n2);margin-bottom:4px}
-.sx-h span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sx-h span:last-child{text-align:right}
+.sx-h span{display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;white-space:nowrap}
+.sx-h span:last-child{justify-content:flex-end}
 .sx{padding:6px 0}
 .sx-top{display:grid;grid-template-columns:52px 1fr 52px;align-items:center;font-size:14px}
 .sx-l{text-align:center}
@@ -233,6 +262,7 @@ button{font:inherit;color:inherit}
   <button class="ib" id="theme" type="button" title="თემის შეცვლა">◐</button>
 </div></header>
 <main class="wrap">
+  <nav class="dates" id="dates" aria-label="თარიღები"></nav>
   <aside class="side">
     <div class="card ov" id="ov"><div class="empty" style="padding:8px"><div class="spin"></div>იტვირთება…</div></div>
     <nav class="tabs" id="tabs" role="tablist" aria-label="ბილეთები"></nav>
@@ -492,16 +522,32 @@ function statsBlock(l, m) {
   if (keys.includes(12)) keys = keys.filter(k => k !== 13);
   const rows = keys.slice(0, 5).map(k => statRow(k, m.stats[k])).join('');
   if (!rows) return '';
-  return `<div class="stats"><h3>სტატისტიკა</h3><div class="sx-h"><span>${esc(l.names.home)}</span><span>${esc(l.names.away)}</span></div>${rows}</div>`;
+  return `<div class="stats"><h3>სტატისტიკა</h3><div class="sx-h"><span>${crest(teamLogo(l, 'home'), l.names.home, 'Competitors', 'sm')}${esc(l.names.home)}</span><span>${esc(l.names.away)}${crest(teamLogo(l, 'away'), l.names.away, 'Competitors', 'sm')}</span></div>${rows}</div>`;
 }
 
 /* ---------- state ---------- */
 let CFG = null, cfgErr = null; const cache = new Map();
 let lastOk = 0, lastErr = 0, lastErrMsg = '';
+// Finished matches are kept in localStorage, so a settled day renders after a reload with no network calls.
+const FIN_KEY = 'lb-final-v1';
+let finals = {};
+{ try { const v = JSON.parse(ls.get(FIN_KEY) || '{}'); if (v && typeof v === 'object' && !Array.isArray(v)) finals = v; } catch {} }
+function hydrate() {
+  for (const [id, meta] of Object.entries(CFG.matches || {})) {
+    const f = finals[id];
+    if (f && f.gid === meta.s365 && f.m && !cache.get(id)?.m) cache.set(id, { at: Date.now(), m: f.m, stats: null, err: null, final: true });
+  }
+}
+function saveFinal(id, gid, m) {
+  if (finals[id]?.gid === gid) return;
+  finals[id] = { gid, m };
+  for (const k of Object.keys(finals)) if (!CFG.matches[k]) delete finals[k];
+  ls.set(FIN_KEY, JSON.stringify(finals));
+}
 async function loadConfig() {
   const r = await fetch('tickets.json?v=' + Date.now(), { cache: 'no-store' });
   if (!r.ok) throw new Error('HTTP ' + r.status);
-  CFG = await r.json(); cfgErr = null;
+  CFG = await r.json(); cfgErr = null; hydrate();
 }
 const API = 'https://webws.365scores.com/web/', Q = 'appTypeId=5&langId=1&timezoneName=UTC&userCountryId=-1';
 async function getJSON(u) {
@@ -511,7 +557,8 @@ async function getJSON(u) {
   finally { clearTimeout(t); }
 }
 async function refresh(force) {
-  const ids = [...new Set(CFG.tickets.flatMap(t => t.legs.map(l => String(l.fotmob))))]; const now = Date.now();
+  // Poll only matches that belong to a still-pending ticket (any date); settled tickets cost no requests.
+  const ids = [...new Set(build().filter(t => t.status === 'live').flatMap(t => t.legs.map(l => l.id)))]; const now = Date.now();
   await Promise.all(ids.map(async id => {
     const gid = CFG.matches[id]?.s365; if (!gid) return;
     const c = cache.get(id);
@@ -524,7 +571,11 @@ async function refresh(force) {
       const live = game.statusGroup === 3 || game.statusGroup === 4;
       const stats = live ? await getJSON(API + 'game/stats/?' + Q + '&games=' + gid).catch(() => c?.stats || null) : null;
       const m = parseMatch(game, stats);
-      cache.set(id, { at: now, m, stats, err: null, final: m.finished && !!c?.m?.finished }); lastOk = Date.now(); paint();
+      m.logo = { home: { id: game.homeCompetitor?.id, v: game.homeCompetitor?.imageVersion }, away: { id: game.awayCompetitor?.id, v: game.awayCompetitor?.imageVersion }, comp: { id: game.competitionId } };
+      const final = m.finished && !!c?.m?.finished;
+      cache.set(id, { at: now, m, stats, err: null, final }); lastOk = Date.now();
+      if (m.finished && (final || now - new Date(m.utc).getTime() > 3 * 3600e3)) saveFinal(id, gid, m);
+      paint();
     } catch (e) {
       cache.set(id, { ...(c || {}), at: now, m: c?.m || null, err: String(e.message || e), final: false });
       lastErr = Date.now(); lastErrMsg = String(e.message || e); paint();
@@ -621,6 +672,52 @@ function diff(state) {
 
 /* ---------- render ---------- */
 let sel = null, lastState = null, tabsInit = false;
+let selDate = null, lastNewest = null, datesInit = false;
+/* dates: one page per ticket date, newest first; tickets without a date go to "სხვა" */
+const MON = ['იან', 'თებ', 'მარ', 'აპრ', 'მაი', 'ივნ', 'ივლ', 'აგვ', 'სექ', 'ოქტ', 'ნოე', 'დეკ'];
+const WD = ['კვირა', 'ორშაბათი', 'სამშაბათი', 'ოთხშაბათი', 'ხუთშაბათი', 'პარასკევი', 'შაბათი'];
+const dkey = t => /^\d{4}-\d{2}-\d{2}$/.test(String(t.date || '')) ? t.date : 'other';
+const todayTb = () => tbsDate(new Date().toISOString());
+function dLabel(d) {
+  if (!d || d === 'other') return { t: 'სხვა', s: 'თარიღის გარეშე' };
+  const [y, mo, da] = d.split('-').map(Number), wd = WD[new Date(Date.UTC(y, mo - 1, da)).getUTCDay()];
+  const rel = d === todayTb() ? 'დღეს · ' : d === tbsDate(new Date(Date.now() - 864e5).toISOString()) ? 'გუშინ · ' : '';
+  return { t: da + ' ' + MON[mo - 1], s: rel + wd };
+}
+const datesOf = state => [...new Set(state.map(dkey))].sort((a, b) => a === 'other' ? 1 : b === 'other' ? -1 : b.localeCompare(a));
+const storeDate = (d, ds) => ls.set('lb-date', JSON.stringify({ d, day: todayTb(), newest: ds[0] }));
+function pickDate(state, ds) {
+  if (lastNewest !== null && ds[0] !== lastNewest) selDate = null; // a newer date appeared: back to the newest
+  lastNewest = ds[0];
+  if (selDate && ds.includes(selDate)) return selDate;
+  const h = decodeURIComponent(location.hash.slice(1)), ht = h && state.find(t => t.key === h);
+  if (ht) return dkey(ht);
+  try { const v = JSON.parse(ls.get('lb-date') || 'null'); if (v && v.day === todayTb() && v.newest === ds[0] && ds.includes(v.d)) return v.d; } catch {}
+  return ds[0];
+}
+function datesView(state, ds) {
+  return ds.map(d => {
+    const ts = state.filter(t => dkey(t) === d), L = dLabel(d), on = d === selDate, c = { won: 0, live: 0, lost: 0 };
+    ts.forEach(t => c[t.status]++);
+    const aria = `${L.t}: მოგებული ${c.won}, მიმდინარე ${c.live}, წაგებული ${c.lost}`;
+    const dots = ts.map(t => `<span class="dot ${t.status === 'live' ? (t.legs.some(l => l.m?.ongoing) ? 'on' : 'pd') : t.status}"></span>`).join('');
+    return `<button class="dt${on ? ' sel' : ''}" type="button" aria-pressed="${on}" aria-label="${esc(aria)}" data-d="${esc(d)}"><span class="dt-t"><span>${esc(L.t)}</span><span class="dots">${dots}</span></span><span class="dt-s">${esc(L.s)}</span></button>`;
+  }).join('');
+}
+/* crests from 365Scores; a neutral circle with the initial when there is no logo or it fails */
+const IMG = 'https://imagecache.365scores.com/image/upload/f_png,w_68,h_68,c_limit,q_auto:eco,dpr_2,d_';
+function crest(o, name, kind = 'Competitors', cls = '') {
+  const ini = esc((String(name || '?').trim().charAt(0) || '?').toUpperCase());
+  if (!o || o.id == null || o.id === '') return `<span class="cr nf ${cls}" data-i="${ini}" aria-hidden="true"></span>`;
+  const url = `${IMG}${kind}:default1.png/v${encodeURIComponent(o.v || 1)}/${kind}/${encodeURIComponent(o.id)}`;
+  return `<span class="cr ${cls}" data-i="${ini}" aria-hidden="true"><img src="${url}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('nf');this.remove()"></span>`;
+}
+function teamLogo(l, s) {
+  const live = l.m?.logo?.[s], cfg = CFG?.matches?.[l.id]?.logo?.[s];
+  if (live && live.id != null) return { id: live.id, v: live.v || (cfg && cfg.id === live.id ? cfg.v : 1) };
+  return cfg || null;
+}
+const compLogo = l => CFG?.matches?.[l.id]?.logo?.comp || (l.m?.logo?.comp?.id != null ? l.m.logo.comp : null);
 const open = new Map();
 const hms = ts => new Date(ts).toLocaleTimeString('en-GB', { hour12: false });
 const ERR = e => /timeout/i.test(e) ? 'პასუხი 12 წამში ვერ მივიღეთ' : /fetch|network/i.test(e) ? 'ქსელის შეცდომა' : e;
@@ -635,19 +732,20 @@ const dotCls = l => l.status === 'pending' ? (l.m?.ongoing ? 'on' : '') : l.stat
 function overview(state) {
   const c = { won: 0, live: 0, lost: 0 }; let pot = 0, won = 0;
   for (const t of state) { c[t.status]++; if (t.status === 'live') pot += t.potential; if (t.status === 'won') won += t.potential; }
-  const loading = state.some(t => t.legs.some(l => !l.m && !l.err));
-  return `<div class="ov-h"><div><h2>ყველა ბილეთი</h2><span class="cap">${state.length} ბილეთი${loading ? ' · იტვირთება…' : ''}</span></div>
+  const loading = state.some(t => t.status === 'live' && t.legs.some(l => !l.m && !l.err));
+  return `<div class="ov-h"><div><h2>ბილეთები · ${esc(dLabel(selDate).t)}</h2><span class="cap">${state.length} ბილეთი${loading ? ' · იტვირთება…' : ''}</span></div>
       <div class="ov-pot"><b>${pot.toFixed(2)} ₾</b><span>შესაძლო მოგება</span></div></div>
     <div class="ov-g"><div class="won"><b>${c.won}</b><span>მოგებული</span></div><div class="live"><b>${c.live}</b><span>მიმდინარე</span></div><div class="lost"><b>${c.lost}</b><span>წაგებული</span></div></div>
     ${won > 0 ? `<div class="ov-won">მოგებული ბილეთებიდან: <b>${won.toFixed(2)} ₾</b></div>` : ''}`;
 }
 function tabsView(state) {
   return state.map(t => {
-    const on = t.key === sel;
+    const on = t.key === sel, raw = CFG.tickets.find(x => x.key === t.key);
+    const crs = t.legs.map((l, i) => { const s = ((raw?.legs?.[i]?.conds || []).find(c => c.side) || {}).side || 'home'; return crest(teamLogo(l, s), l.names[s], 'Competitors', 'sm'); }).join('');
     return `<button class="tab${on ? ' sel' : ''}" type="button" role="tab" aria-selected="${on}" data-t="${esc(t.key)}">
       <span class="tab-n">${esc(t.name)}</span>
       <span class="tab-m">${t.stake} ₾ × ${t.odds.toFixed(2)}</span>
-      <span class="tab-p ${t.status}">${t.potential.toFixed(2)} ₾</span>
+      <span class="tab-r"><span class="tab-p ${t.status}">${t.potential.toFixed(2)} ₾</span><span class="tab-c">${crs}</span></span>
       <span class="tab-f"><span class="pill ${t.status}">${ST[t.status]}</span><span class="dots">${t.legs.map(l => `<span class="dot ${dotCls(l)}"></span>`).join('')}</span></span>
     </button>`;
   }).join('');
@@ -702,19 +800,20 @@ function details(l) {
 }
 function legRow(t, l, i) {
   const m = l.m, k = legKey(t, l, i), isOpen = open.has(k) ? open.get(k) : !!m?.ongoing;
+  const idle = !m && t.status !== 'live'; // settled ticket: this match is no longer polled
   const fin = m && m.finished, started = m && m.started;
   const lose = s => fin && (s === 'home' ? m.h < m.a : m.a < m.h);
   const reds = s => m ? '<i class="rc" aria-label="წითელი ბარათი"></i>'.repeat(m.reds.filter(r => r.side === s).length) : '';
-  const team = s => `<div class="tr${lose(s) ? ' dim' : ''}"><span class="nm">${esc(l.names[s])}${reds(s)}</span><b class="sc">${started ? (s === 'home' ? m.h : m.a) : ''}</b></div>`;
+  const team = s => `<div class="tr${lose(s) ? ' dim' : ''}"><span class="nm">${crest(teamLogo(l, s), l.names[s])}<span class="tn">${esc(l.names[s])}</span>${reds(s)}</span><b class="sc">${started ? (s === 'home' ? m.h : m.a) : ''}</b></div>`;
   return `<div class="ev ${l.status}${m?.ongoing ? ' on' : ''}" data-k="${esc(k)}">
     <div class="row" role="button" tabindex="0" aria-expanded="${isOpen}">
-      ${clockCol(m)}
+      ${idle ? '<div class="clk"><span class="ko">—</span></div>' : clockCol(m)}
       <div class="teams">${team('home')}${team('away')}</div>
       <div class="odd ${l.status} ${legTone(l)}">${l.odds.toFixed(2)}</div>
       <div class="chips">${chipsFor(l)}<span class="chev" aria-hidden="true"></span></div>
-      ${!m && l.err ? '<div class="lerr">მონაცემები ვერ ჩაიტვირთა · ვცდი ხელახლა</div>' : ''}
+      ${idle ? '<div class="lerr idle">ბილეთი დასრულებულია · ეს მატჩი აღარ მოწმდება</div>' : !m && l.err ? '<div class="lerr">მონაცემები ვერ ჩაიტვირთა · ვცდი ხელახლა</div>' : ''}
     </div>
-    ${isOpen ? `<div class="det">${details(l)}</div>` : ''}
+    ${isOpen ? `<div class="det">${idle ? '<p class="muted">ბილეთი უკვე დასრულებულია, ამიტომ ეს მატჩი აღარ მოწმდება.</p>' : details(l)}</div>` : ''}
   </div>`;
 }
 function ticketView(t) {
@@ -734,7 +833,7 @@ function ticketView(t) {
       <div class="seg">${legs.map(x => `<i class="${dotCls(x.l)}"></i>`).join('')}</div>
       <div class="tk-f"><span>${t.settled}/${t.legs.length} დასრულდა${effNote}</span>${liveN ? `<span class="lv">ლაივში ${liveN}</span>` : next ? `<span>შემდეგი ${tbs(next)}</span>` : ''}</div>
     </div>
-    <div class="card list">${groups.map(g => `${g.c ? `<div class="grp">${esc(g.c)}</div>` : ''}${g.items.map(x => legRow(t, x.l, x.i)).join('')}`).join('')}</div>`;
+    <div class="card list">${groups.map(g => `${g.c ? `<div class="grp">${crest(compLogo(g.items[0].l), g.c, 'Competitions', 'cp')}<span>${esc(g.c)}</span></div>` : ''}${g.items.map(x => legRow(t, x.l, x.i)).join('')}`).join('')}</div>`;
 }
 function bannerView() {
   if (!CFG && cfgErr) return `<div class="banner">ბილეთების ფაილი ვერ ჩაიტვირთა (${esc(ERR(cfgErr))}) · ვცდი ხელახლა</div>`;
@@ -749,27 +848,39 @@ function render(state) {
     if (!CFG) { $('#view').innerHTML = cfgErr ? '' : '<div class="card empty"><div class="spin"></div>იტვირთება…</div>'; if (cfgErr) { $('#ov').innerHTML = '<div class="empty" style="padding:8px">მონაცემები არ არის</div>'; $('#live').textContent = 'კავშირი არ არის'; } }
     return;
   }
-  lastState = state; sel = pickSel(state);
+  lastState = state;
+  const ds = datesOf(state); selDate = pickDate(state, ds);
+  const day = state.filter(t => dkey(t) === selDate);
+  sel = pickSel(day);
   const ms = new Map(); for (const t of state) for (const l of t.legs) if (l.m) ms.set(l.id, l.m);
   const all = [...ms.values()], liveN = all.filter(m => m.ongoing).length;
   const next = all.filter(m => !m.started && !m.cancelled).map(m => m.utc).sort()[0];
   const lv = $('#live'); lv.className = 'livei' + (liveN ? ' on' : '');
   lv.textContent = liveN ? `ლაივში ${liveN} მატჩი` : next ? `შემდეგი ${tbs(next)}` : ms.size ? 'ლაივ მატჩი არ არის' : 'იტვირთება…';
   $('#upd').textContent = lastOk ? 'განახლდა ' + hms(lastOk) : '';
-  $('#ov').innerHTML = state.length ? overview(state) : '<div class="empty" style="padding:8px">ბილეთები ჯერ არ არის</div>';
-  const tabs = $('#tabs'), sl = tabs.scrollLeft; tabs.innerHTML = tabsView(state); tabs.scrollLeft = sl;
+  const dz = $('#dates'), dsl = dz.scrollLeft; dz.innerHTML = datesView(state, ds); dz.scrollLeft = dsl;
+  if (!datesInit && ds.length) { datesInit = true; const el = [...dz.children].find(x => x.dataset.d === selDate); if (el && el.offsetLeft + el.offsetWidth > dz.clientWidth) dz.scrollLeft = el.offsetLeft - 16; }
+  $('#ov').innerHTML = day.length ? overview(day) : '<div class="empty" style="padding:8px">ბილეთები ჯერ არ არის</div>';
+  const tabs = $('#tabs'), sl = tabs.scrollLeft; tabs.innerHTML = tabsView(day); tabs.scrollLeft = sl;
   if (!tabsInit) { tabsInit = true; const el = [...tabs.children].find(x => x.dataset.t === sel); if (el && el.offsetLeft + el.offsetWidth > tabs.clientWidth) tabs.scrollLeft = el.offsetLeft - 16; }
   $('#banner').innerHTML = bannerView();
-  const t = state.find(x => x.key === sel);
+  const t = day.find(x => x.key === sel);
   $('#view').innerHTML = t ? ticketView(t) : '<div class="card empty">ბილეთები ჯერ არ არის</div>';
 }
 function selectTicket(k) {
-  if (!lastState || !lastState.some(t => t.key === k)) return;
+  const tk = lastState && lastState.find(t => t.key === k); if (!tk) return;
+  if (dkey(tk) !== selDate) { selDate = dkey(tk); storeDate(selDate, datesOf(lastState)); $('#tabs').scrollLeft = 0; }
   sel = k; try { history.replaceState(null, '', '#' + k); } catch {}
   render(lastState);
   const el = [...document.querySelectorAll('.tab')].find(x => x.dataset.t === k), tabs = $('#tabs');
   if (el && tabs.scrollWidth > tabs.clientWidth) tabs.scrollTo({ left: Math.max(0, el.offsetLeft - 16), behavior: 'smooth' });
   const v = $('#view'); if (v.getBoundingClientRect().top < 0) v.scrollIntoView({ block: 'start' });
+}
+function selectDate(d) {
+  if (!lastState) return;
+  selDate = d; storeDate(d, datesOf(lastState)); sel = null; $('#tabs').scrollLeft = 0;
+  if (location.hash) try { history.replaceState(null, '', location.pathname + location.search); } catch {}
+  render(lastState);
 }
 function toggleRow(row) {
   const k = row.closest('.ev')?.dataset.k; if (!k) return;
@@ -777,6 +888,7 @@ function toggleRow(row) {
   if (lastState) render(lastState);
 }
 document.addEventListener('click', e => {
+  const dt = e.target.closest('.dt'); if (dt) return selectDate(dt.dataset.d);
   const tab = e.target.closest('.tab'); if (tab) return selectTicket(tab.dataset.t);
   const row = e.target.closest('.row'); if (row) return toggleRow(row);
   const ts = e.target.closest('.toast'); if (ts) { if (ts.dataset.t) selectTicket(ts.dataset.t); ts.remove(); }
