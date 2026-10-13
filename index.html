@@ -171,14 +171,25 @@ function parseMatch(g, statsJson) {
   const secondHalf = finished || /2nd/i.test(txt) || !!(ht && ht.isEnded && !atBreak);
   const firstHalfOver = finished || atBreak || secondHalf;
   const htScore = ht && firstHalfOver ? { home: Math.max(0, ht.homeCompetitorScore || 0), away: Math.max(0, ht.awayCompetitorScore || 0) } : null;
+  const memberName = {};
+  for (const mb of g.members || []) memberName[mb.id] = mb.name || mb.shortName || '';
   const goals = [], reds = [];
   for (const e of g.events || []) {
     const name = e.eventType?.name || '', side = sideOf(e.competitorId);
     const min = (e.gameTime ?? '') + (e.addedTime ? '+' + e.addedTime : '');
     if (e.eventType?.id === 1 && side) {
       const own = /own/i.test(e.eventType.subTypeName || '');
-      goals.push({ side: own ? (side === 'home' ? 'away' : 'home') : side, min, own });
+      goals.push({ side: own ? (side === 'home' ? 'away' : 'home') : side, min, own, scorer: memberName[e.playerId] || '' });
     } else if (/red/i.test(name) && side) reds.push({ side, min });
+  }
+  // per-player stats from the lineups (365Scores stat types: 4 shots on target, 27 goals, 30 minutes)
+  const players = [];
+  for (const comp of [g.homeCompetitor, g.awayCompetitor]) {
+    const side = sideOf(comp.id);
+    for (const pm of comp.lineups?.members || []) {
+      const st = {}; for (const x of pm.stats || []) st[x.type] = x.value;
+      players.push({ side, name: memberName[pm.id] || '', status: pm.statusText || '', sot: num(st[4]), goals: num(st[27]), min: st[30] || '' });
+    }
   }
   const stats = {};
   for (const x of statsJson?.statistics || []) {
@@ -189,7 +200,7 @@ function parseMatch(g, statsJson) {
   let clock = tbs(g.startTime);
   if (cancelled) clock = 'გადაიდო'; else if (finished) clock = 'დასრ.'; else if (atBreak) clock = 'შესვ.';
   else if (ongoing) clock = g.gameTimeDisplay || (g.gameTime > 0 ? g.gameTime + "'" : 'LIVE');
-  return { started, finished, ongoing, cancelled, firstHalfOver, secondHalf, clock, utc: g.startTime, h, a, htScore, goals, reds, cards, stats };
+  return { started, finished, ongoing, cancelled, firstHalfOver, secondHalf, clock, utc: g.startTime, h, a, htScore, goals, reds, cards, stats, players, hasLineups: players.length > 0 };
 }
 // Goals a side scored in each half, from the half-time score.
 function halfGoals(m, side) {
@@ -250,6 +261,45 @@ function evalCond(c, m, names) {
       return pend(text, me > op ? 'good' : me === op ? 'warn' : 'bad');
     }
   }
+  if (c.type === 'both_halves_over') {
+    const need = Math.floor(c.line) + 1, tot = m.h + m.a;
+    const h1 = m.htScore ? m.htScore.home + m.htScore.away : tot, h2 = m.htScore ? tot - h1 : 0;
+    const mk = (v, over) => v >= need ? '✓' : over ? '✗' : '…';
+    const text = `I ტაიმი ${h1}/${need} ${mk(h1, m.firstHalfOver)} · II ტაიმი ${h2}/${need} ${mk(h2, m.finished)}`;
+    if (h1 >= need && h2 >= need) return { s: 'won', text };
+    if ((m.firstHalfOver && h1 < need) || (m.finished && h2 < need)) return { s: 'lost', text };
+    return pend(text, h1 >= need ? 'good' : 'neutral');
+  }
+  if (c.type === 'htft') {
+    const res = (hh, aa) => hh > aa ? '1' : hh < aa ? '2' : 'X';
+    const want = { ht: String(c.ht).toUpperCase(), ft: c.ft === 'home' ? '1' : c.ft === 'away' ? '2' : 'X' };
+    const lbl = r => r === '1' ? tn('home') : r === '2' ? tn('away') : 'ფრე';
+    const htRes = m.htScore ? res(m.htScore.home, m.htScore.away) : null, ftRes = res(m.h, m.a);
+    const text = `I ტაიმი: ${htRes ? lbl(htRes) : '…'} (სჭირდება ${lbl(want.ht)}) · მატჩი: ${m.started ? lbl(ftRes) : '…'} (სჭირდება ${lbl(want.ft)})`;
+    if (htRes && htRes !== want.ht) return { s: 'lost', text };
+    if (m.finished) return htRes === want.ht && ftRes === want.ft ? { s: 'won', text } : { s: 'lost', text };
+    if (!m.started) return pend(`I ტაიმი ${lbl(want.ht)}, მატჩი ${lbl(want.ft)}`);
+    if (!htRes) return pend(text, res(m.h, m.a) === want.ht ? 'good' : 'warn');
+    return pend(text, ftRes === want.ft ? 'good' : 'warn');
+  }
+  if (c.type === 'scorer') {
+    const rx = new RegExp(c.name, 'i');
+    const hit = m.goals.find(x => !x.own && rx.test(x.scorer || ''));
+    const pl = m.players.find(x => rx.test(x.name) && (!c.side || x.side === c.side));
+    if (hit) return { s: 'won', text: `${hit.scorer} გაიტანა (${hit.min}')` };
+    if (m.finished) return { s: 'lost', text: `${c.label || c.name} ვერ გაიტანა` };
+    const who = pl ? `${pl.name} · ${pl.status || ''}${pl.min ? ' ' + pl.min : ''}${pl.sot ? ` · კარში ${pl.sot}` : ''}` : (m.hasLineups ? `${c.label || c.name} შემადგენლობაში არ ჩანს` : `${c.label || c.name} უნდა გაიტანოს`);
+    return pend(who, pl && /start/i.test(pl.status) ? 'neutral' : m.hasLineups && !pl ? 'bad' : 'neutral');
+  }
+  if (c.type === 'player_sot') {
+    const rx = new RegExp(c.name, 'i'), need = Math.floor(c.line) + 1;
+    const pl = m.players.find(x => rx.test(x.name) && (!c.side || x.side === c.side));
+    const have = pl ? pl.sot : 0;
+    const text = pl ? `${pl.name}: კარში ${have}/${need}${pl.min ? ' · ' + pl.min : ''}` : (m.hasLineups ? `${c.name} შემადგენლობაში არ ჩანს` : `${c.name} კარში ${need}+`);
+    if (have >= need) return { s: 'won', text };
+    if (m.finished) return { s: 'lost', text };
+    return pend(text, need - have === 1 ? 'good' : m.hasLineups && !pl ? 'bad' : 'neutral');
+  }
   if (c.type === 'manual') return pend(c.text || 'ხელით შესამოწმებელია');
   return pend('უცნობი პირობა');
 }
@@ -263,7 +313,7 @@ function combine(list) {
 /* ---------- which stats each leg needs (365Scores stat ids) ---------- */
 const LBL = { 4:'დარტყმა კარში', 24:'დიდი შანსი', 3:'დარტყმები', 8:'კუთხური', 10:'ბურთის ფლობა', 11:'შეტევები', 1:'ყვითელი ბარათი', 2:'წითელი ბარათი', 12:'ფოლი', 13:'ჯარიმის დარტყმა', 23:'მეკარის სეივი' };
 const GOALS = [4, 24, 3, 8], RESULT = [4, 24, 10, 3];
-const NEED = { btts: GOALS, total_over: GOALS, team_over: GOALS, win: RESULT, dnb: RESULT, team_both_halves: [4, 24, 3], most_cards: [1, 2, 12, 13] };
+const NEED = { btts: GOALS, total_over: GOALS, team_over: GOALS, win: RESULT, dnb: RESULT, team_both_halves: [4, 24, 3], most_cards: [1, 2, 12, 13], both_halves_over: GOALS, htft: RESULT, scorer: GOALS, player_sot: [4, 3] };
 function statRow(key, pair) {
   const [h, a] = pair, hn = num(h), an = num(a), max = key == 10 ? 100 : Math.max(hn, an, 0.0001);
   const w = v => Math.max(0, Math.min(100, (v / max) * 100)).toFixed(0);
@@ -277,7 +327,7 @@ function statsBlock(l, m) {
   if (keys.includes(12)) keys = keys.filter(k => k !== 13);
   const rows = keys.slice(0, 5).map(k => statRow(k, m.stats[k])).join('');
   let ht = '';
-  if (m.htScore && l.conds.some(c => c.type === 'team_both_halves'))
+  if (m.htScore && l.conds.some(c => ['team_both_halves', 'both_halves_over', 'htft'].includes(c.type)))
     ht = `<div class="ev">I ტაიმი: ${m.htScore.home}–${m.htScore.away}${m.secondHalf ? ` · II ტაიმი: ${m.h - m.htScore.home}–${m.a - m.htScore.away}` : ''}</div>`;
   if (!rows && !ht) return '';
   return `${ht}<div class="stats">${rows ? `<div class="st-h"><span>${esc(l.names.home)}</span><span>სტატისტიკა</span><span>${esc(l.names.away)}</span></div>${rows}` : ''}</div>`;
@@ -355,7 +405,7 @@ function legRow(l) {
   const conds = l.conds.map(c => `<div class="cond ${c.s} ${c.tone || ''}"><i>${ICON[c.s]}</i><span>${esc(c.text)}</span></div>`).join('');
   let ev = '';
   if (m) {
-    const parts = m.goals.map(g => `⚽ ${esc(g.min)}' ${esc(l.names[g.side])}${g.own ? ' (ავტოგოლი)' : ''}`);
+    const parts = m.goals.map(g => `⚽ ${esc(g.min)}' ${esc(l.names[g.side])}${g.scorer ? ' · ' + esc(g.scorer) : ''}${g.own ? ' (ავტოგოლი)' : ''}`);
     for (const r of m.reds) parts.push(`🟥 ${esc(r.min)}' ${esc(l.names[r.side])}`);
     if (parts.length) ev = `<div class="ev">${parts.join(' · ')}</div>`;
   }
