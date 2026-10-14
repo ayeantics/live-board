@@ -904,14 +904,14 @@
     },
     {
      "fotmob": "57035092",
-     "bet": "K. Mbappe კარში დარტყმები 2+",
+     "bet": "K. Mbappe კარში დარტყმები 3+",
      "odds": 2,
      "conds": [
       {
        "type": "player_sot",
        "side": "away",
        "name": "Mbapp",
-       "line": 1.5
+       "line": 2.5
       }
      ]
     }
