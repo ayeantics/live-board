@@ -493,6 +493,22 @@ function evalCond(c, m, names) {
     if (!m.started) return pend(`${tn(c.side)} არ უნდა წააგოს (1X)`);
     return d > 0 ? pend(`${tn(c.side)} იგებს`, 'good') : d === 0 ? pend('ფრე · ჯერ გადის', 'good') : pend(`${tn(c.side)} აგებს`, 'bad');
   }
+  if (c.type === 'half_total_over') {
+    const need = Math.floor(c.line) + 1, tot = m.h + m.a, h1 = m.htScore ? m.htScore.home + m.htScore.away : tot;
+    const half = c.half === 1 ? h1 : (m.htScore ? tot - h1 : 0), over = c.half === 1 ? m.firstHalfOver : m.finished;
+    const text = `${c.half === 1 ? 'I' : 'II'} ტაიმი: გოლები ${half}/${need}`;
+    if (half >= need) return { s: 'won', text };
+    if (over) return { s: 'lost', text };
+    return pend(text, need - half === 1 ? 'good' : 'neutral');
+  }
+  if (c.type === 'corners_over') {
+    const need = Math.floor(c.line) + 1, pair = m.stats[8], tot = pair ? num(pair[0]) + num(pair[1]) : null;
+    if (tot == null) return pend(`კუთხურები ${need}+ · მონაცემი ჯერ არ არის`);
+    const text = `კუთხურები ${tot}/${need}`;
+    if (tot >= need) return { s: 'won', text };
+    if (m.finished) return { s: 'lost', text };
+    return pend(text, need - tot <= 2 ? 'good' : 'neutral');
+  }
   if (c.type === 'manual') return pend(c.text || 'ხელით შესამოწმებელია');
   return pend('უცნობი პირობა');
 }
@@ -506,7 +522,7 @@ function combine(list) {
 /* ---------- which stats each leg needs (365Scores stat ids) ---------- */
 const LBL = { 4:'დარტყმა კარში', 24:'დიდი შანსი', 3:'დარტყმები', 8:'კუთხური', 10:'ბურთის ფლობა', 11:'შეტევები', 1:'ყვითელი ბარათი', 2:'წითელი ბარათი', 12:'ფოლი', 13:'ჯარიმის დარტყმა', 23:'მეკარის სეივი' };
 const GOALS = [4, 24, 3, 8], RESULT = [4, 24, 10, 3];
-const NEED = { btts: GOALS, total_over: GOALS, team_over: GOALS, win: RESULT, dnb: RESULT, team_both_halves: [4, 24, 3], most_cards: [1, 2, 12, 13], both_halves_over: GOALS, htft: RESULT, scorer: GOALS, player_sot: [4, 3], no_lose: RESULT };
+const NEED = { btts: GOALS, total_over: GOALS, team_over: GOALS, win: RESULT, dnb: RESULT, team_both_halves: [4, 24, 3], most_cards: [1, 2, 12, 13], both_halves_over: GOALS, htft: RESULT, scorer: GOALS, player_sot: [4, 3], no_lose: RESULT, half_total_over: GOALS, corners_over: [8, 3] };
 // Two-sided comparison row; the side with more is drawn solid, the other faded.
 function statRow(key, pair) {
   const [h, a] = pair, hn = num(h), an = num(a), max = key == 10 ? 100 : Math.max(hn, an, 0.0001);
