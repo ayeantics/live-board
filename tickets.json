@@ -1004,6 +1004,70 @@
  },
  "tickets": [
   {
+   "key": "t18",
+   "placed": "15 ოქტ 21:42 · სეტანტა · 15 SET (Setanta Coin)",
+   "stake": 15,
+   "odds": 8.2937,
+   "name": "სეტანტა · 15 SET",
+   "legs": [
+    {
+     "fotmob": "57217492",
+     "bet": "BB: გოლების რ-ბა მეტი (2.5) + ორივე გაიტანს კი",
+     "odds": 1.7,
+     "conds": [
+      {
+       "type": "total_over",
+       "line": 2.5
+      },
+      {
+       "type": "btts"
+      }
+     ]
+    },
+    {
+     "fotmob": "56781453",
+     "bet": "BB: ძირითადი შედეგი 1 + გოლების რ-ბა მეტი (2.5)",
+     "odds": 1.64,
+     "conds": [
+      {
+       "type": "win",
+       "side": "home"
+      },
+      {
+       "type": "total_over",
+       "line": 2.5
+      }
+     ]
+    },
+    {
+     "fotmob": "56781369",
+     "bet": "I გუნდის გოლები მეტი (1.5)",
+     "odds": 2.01,
+     "conds": [
+      {
+       "type": "team_over",
+       "side": "home",
+       "line": 1.5
+      }
+     ]
+    },
+    {
+     "fotmob": "57217487",
+     "bet": "E. Lepaul კარში დარტყმები 2+",
+     "odds": 1.48,
+     "conds": [
+      {
+       "type": "player_sot",
+       "side": "home",
+       "name": "Lepaul",
+       "line": 1.5
+      }
+     ]
+    }
+   ],
+   "date": "2026-10-15"
+  },
+  {
    "key": "t17",
    "date": "2026-10-15",
    "placed": "15 ოქტ 19:35 · სეტანტა · დადებულია",
