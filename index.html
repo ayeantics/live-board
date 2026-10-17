@@ -4,92 +4,100 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#17181d">
+<meta name="theme-color" content="#000000">
 <title>ლაივ ბილეთები</title>
 <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* lb-v2 · SofaScore-style layout: app bar, all-tickets overview, ticket tabs, ticket summary, match rows with expandable details. */
+/* lb-v3 · Sofascore look (tokens read from sofascore.com: surfaces, n-lv1..5 text ladder, 24px pills, 48px event rows, bold league headers).
+   Colour rules: red is used for the match minute and live score (as on Sofascore) and for a lost bet; nothing blinks.
+   Bet state: grey = waiting, blue = in play, amber = needs something, green = won, red = lost. */
 :root{
-  --bg:#0f1013;--card:#191a1f;--card2:#212329;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.15);
-  --n1:#f3f4f6;--n2:rgba(243,244,246,.78);--n3:rgba(243,244,246,.62);
-  --pri:#8592ff;--pri-bg:rgba(133,146,255,.16);
-  --bar:#17181d;--onbar:#f3f4f6;--onbar2:rgba(243,244,246,.74);--barbtn:rgba(255,255,255,.08);
-  --home:#8592ff;--on-home:#0c1140;--away:#35d0da;--on-away:#05272a;
-  --won:#34c972;--won-bg:rgba(52,201,114,.15);--lost:#ff5d6e;--lost-bg:rgba(255,93,110,.14);
-  --warn:#f1b54c;--warn-bg:rgba(241,181,76,.15);--live:#ff3d52;--good:#34c972;--bad:#ff5d6e;
-  --toast:#f3f4f6;--on-toast:#14151a;--shadow:0 0 0 rgba(0,0,0,0);
+  --s0:#000;--s1:#171c1f;--sp:#272c32;
+  --n1:#eceef0;--n2:rgba(255,255,255,.75);--n3:rgba(255,255,255,.55);
+  --line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.15);--n5:rgba(255,255,255,.08);
+  --pri:#7d8cff;--pri-fill:#374df5;--pri-bg:rgba(125,140,255,.16);--on-pri:#fff;
+  --bar:#000;--onbar:#eceef0;--onbar2:rgba(236,238,240,.72);--barbtn:rgba(255,255,255,.1);
+  --home:#7d8cff;--on-home:#0c1140;--away:#35d0da;--on-away:#05272a;
+  --won:#39b57a;--won-bg:rgba(57,181,122,.16);--lost:#e35c47;--lost-bg:rgba(227,92,71,.16);
+  --warn:#dbaa3f;--warn-bg:rgba(219,170,63,.16);--live:#e73b3b;--live-bg:rgba(231,59,59,.2);
+  --play:#6aa8ff;--play-bg:rgba(106,168,255,.16);
+  --toast:#eceef0;--on-toast:#171c1f;
+  --card:var(--s1);--card2:var(--sp);--bg:var(--s0);--good:var(--won);--bad:var(--lost);--shadow:none;
   color-scheme:dark;
 }
 @media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
-  --bg:#edf0f4;--card:#fff;--card2:#f4f6f9;--line:rgba(18,20,28,.09);--line2:rgba(18,20,28,.17);
-  --n1:#14151a;--n2:rgba(20,21,26,.76);--n3:rgba(20,21,26,.62);
-  --pri:#374df5;--pri-bg:rgba(55,77,245,.1);
-  --bar:#374df5;--onbar:#fff;--onbar2:rgba(255,255,255,.86);--barbtn:rgba(255,255,255,.17);
+  --s0:#edf1f6;--s1:#fff;--sp:#e8ecf3;
+  --n1:#222226;--n2:rgba(34,34,38,.76);--n3:rgba(34,34,38,.62);
+  --line:rgba(34,34,38,.07);--line2:rgba(34,34,38,.16);--n5:rgba(34,34,38,.06);
+  --pri:#374df5;--pri-fill:#374df5;--pri-bg:rgba(55,77,245,.12);
+  --bar:#374df5;--onbar:#fff;--onbar2:rgba(255,255,255,.86);--barbtn:rgba(255,255,255,.18);
   --home:#374df5;--on-home:#fff;--away:#08838d;--on-away:#fff;
-  --won:#0a8f40;--won-bg:rgba(10,143,64,.1);--lost:#d0233a;--lost-bg:rgba(208,35,58,.08);
-  --warn:#94600b;--warn-bg:rgba(230,160,40,.16);--live:#e3203a;--good:#0a8f40;--bad:#d0233a;
-  --toast:#14151a;--on-toast:#fff;--shadow:0 1px 2px rgba(16,24,40,.06);
+  --won:#15915a;--won-bg:rgba(21,177,104,.12);--lost:#c7361f;--lost-bg:rgba(199,54,31,.1);
+  --warn:#94600b;--warn-bg:rgba(199,146,31,.16);--live:#cb1818;--live-bg:rgba(203,24,24,.1);
+  --play:#1f58e0;--play-bg:rgba(31,88,224,.1);
+  --toast:#222226;--on-toast:#fff;--shadow:none;
   color-scheme:light;
 }}
 :root[data-theme="light"]{
-  --bg:#edf0f4;--card:#fff;--card2:#f4f6f9;--line:rgba(18,20,28,.09);--line2:rgba(18,20,28,.17);
-  --n1:#14151a;--n2:rgba(20,21,26,.76);--n3:rgba(20,21,26,.62);
-  --pri:#374df5;--pri-bg:rgba(55,77,245,.1);
-  --bar:#374df5;--onbar:#fff;--onbar2:rgba(255,255,255,.86);--barbtn:rgba(255,255,255,.17);
+  --s0:#edf1f6;--s1:#fff;--sp:#e8ecf3;
+  --n1:#222226;--n2:rgba(34,34,38,.76);--n3:rgba(34,34,38,.62);
+  --line:rgba(34,34,38,.07);--line2:rgba(34,34,38,.16);--n5:rgba(34,34,38,.06);
+  --pri:#374df5;--pri-fill:#374df5;--pri-bg:rgba(55,77,245,.12);
+  --bar:#374df5;--onbar:#fff;--onbar2:rgba(255,255,255,.86);--barbtn:rgba(255,255,255,.18);
   --home:#374df5;--on-home:#fff;--away:#08838d;--on-away:#fff;
-  --won:#0a8f40;--won-bg:rgba(10,143,64,.1);--lost:#d0233a;--lost-bg:rgba(208,35,58,.08);
-  --warn:#94600b;--warn-bg:rgba(230,160,40,.16);--live:#e3203a;--good:#0a8f40;--bad:#d0233a;
-  --toast:#14151a;--on-toast:#fff;--shadow:0 1px 2px rgba(16,24,40,.06);
+  --won:#15915a;--won-bg:rgba(21,177,104,.12);--lost:#c7361f;--lost-bg:rgba(199,54,31,.1);
+  --warn:#94600b;--warn-bg:rgba(199,146,31,.16);--live:#cb1818;--live-bg:rgba(203,24,24,.1);
+  --play:#1f58e0;--play-bg:rgba(31,88,224,.1);
+  --toast:#222226;--on-toast:#fff;--shadow:none;
   color-scheme:light;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--n1);font:15px/1.45 "Noto Sans Georgian",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--n1);font:14px/1.45 "Noto Sans Georgian",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 button{font:inherit;color:inherit}
 
 /* app bar */
 .bar{position:sticky;top:0;z-index:10;background:var(--bar);color:var(--onbar);padding-top:env(safe-area-inset-top,0px);border-bottom:1px solid var(--line)}
 .bar-in{max-width:1080px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:8px}
 .brand{flex:1;min-width:0}
-.brand h1{margin:0;font-size:18px;font-weight:700;line-height:1.3}
-.brand .sub{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--onbar2);white-space:nowrap;overflow:hidden;font-variant-numeric:tabular-nums}
+.brand h1{margin:0;font-size:17px;font-weight:700;line-height:1.3;letter-spacing:-.01em}
+.brand .sub{display:flex;align-items:center;flex-wrap:wrap;gap:0 12px;font-size:13px;color:var(--onbar2);font-variant-numeric:tabular-nums}
 .livei{display:inline-flex;align-items:center;gap:6px}
 .livei.on{color:var(--onbar);font-weight:600}
-.livei.on::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--live);box-shadow:0 0 0 2px rgba(255,255,255,.18);animation:p 1.4s infinite}
-.ib{flex:none;width:40px;height:40px;border-radius:10px;border:0;background:var(--barbtn);color:var(--onbar);font-size:18px;line-height:1;display:grid;place-items:center;cursor:pointer}
-.ib:focus-visible,.tab:focus-visible,.row:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
-@keyframes p{50%{opacity:.3}}
+.livei.on::before{content:"";width:8px;height:8px;border-radius:50%;background:#6aa8ff;box-shadow:0 0 0 3px rgba(106,168,255,.3)}
+.ib{flex:none;width:40px;height:40px;border-radius:50%;border:0;background:var(--barbtn);color:var(--onbar);font-size:17px;line-height:1;display:grid;place-items:center;cursor:pointer}
+.ib:focus-visible,.tab:focus-visible,.row:focus-visible,.dt:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
 
 /* layout */
 .wrap{max-width:1080px;margin:0 auto;padding:12px 16px calc(32px + env(safe-area-inset-bottom,0px))}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.card{background:var(--card);border-radius:16px}
 
 /* overview */
 .ov{padding:14px 16px}
 .ov-h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .ov-h h2{margin:0;font-size:16px;font-weight:700}
-.ov-h .cap{font-size:13px;color:var(--n2)}
+.ov-h .cap{font-size:13px;color:var(--n3)}
 .ov-pot{text-align:right}
 .ov-pot b{display:block;font-size:20px;line-height:1.2;font-variant-numeric:tabular-nums}
-.ov-pot span{font-size:13px;color:var(--n2)}
+.ov-pot span{font-size:13px;color:var(--n3)}
 .ov-g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-.ov-g div{background:var(--card2);border-radius:10px;padding:8px 10px}
+.ov-g div{background:var(--card2);border-radius:12px;padding:8px 12px}
 .ov-g b{display:block;font-size:20px;line-height:1.2;font-variant-numeric:tabular-nums}
 .ov-g span{font-size:13px;color:var(--n2)}
-.ov-g .won b{color:var(--won)}.ov-g .lost b{color:var(--lost)}.ov-g .live b{color:var(--pri)}
+.ov-g .won b{color:var(--won)}.ov-g .lost b{color:var(--lost)}.ov-g .live b{color:var(--play)}
 .ov-won{margin-top:10px;font-size:14px;color:var(--n2)}
 .ov-won b{color:var(--won);font-variant-numeric:tabular-nums}
 
 /* ticket tabs */
 .tabs{position:relative;display:flex;gap:8px;overflow-x:auto;margin:12px -16px 0;padding:0 16px 4px;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 186px;scroll-snap-align:start;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;display:grid;gap:3px;box-shadow:var(--shadow)}
-.tab.sel{border-color:var(--pri);box-shadow:inset 0 0 0 1px var(--pri)}
-.tab-n{font-weight:600;font-size:14px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tab-m{font-size:13px;color:var(--n2);font-variant-numeric:tabular-nums}
+.tab{flex:0 0 186px;scroll-snap-align:start;text-align:left;background:var(--card);border:0;border-radius:16px;padding:12px 14px;cursor:pointer;display:grid;gap:3px;box-shadow:inset 0 0 0 2px transparent}
+.tab.sel{box-shadow:inset 0 0 0 2px var(--pri)}
+.tab-n{font-weight:700;font-size:14px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tab-m{font-size:13px;color:var(--n3);font-variant-numeric:tabular-nums}
 .tab-p{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.3}
 .tab-p.won{color:var(--won)}
 .tab-p.lost{color:var(--n3);text-decoration:line-through;text-decoration-thickness:1px}
@@ -97,49 +105,51 @@ button{font:inherit;color:inherit}
 .dots{display:flex;gap:4px}
 .dot{width:9px;height:9px;border-radius:50%;background:var(--line2)}
 .dot.won{background:var(--won)}.dot.lost{background:var(--lost)}.dot.refund{background:var(--warn)}
-.dot.on{background:var(--live);animation:p 1.4s infinite}
-.dot.pd{background:var(--pri)}
+.dot.on{background:var(--play)}
+.dot.pd{background:transparent;box-shadow:inset 0 0 0 2px var(--n3)}
 
-/* date switcher */
+/* date switcher: Sofascore pills, selected one inverted */
 .dates{position:relative;display:flex;gap:8px;overflow-x:auto;margin:0 -16px 12px;padding:0 16px 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .dates::-webkit-scrollbar{display:none}
-.dt{flex:none;min-width:138px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer;display:grid;gap:2px;box-shadow:var(--shadow)}
-.dt.sel{background:var(--pri-bg);border-color:var(--pri);box-shadow:inset 0 0 0 1px var(--pri)}
-.dt-t{display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:700;font-size:15px;line-height:1.35}
-.dt-s{font-size:13px;color:var(--n2);white-space:nowrap}
+.dt{flex:none;min-width:136px;text-align:left;background:var(--card);border:0;border-radius:16px;padding:8px 14px;cursor:pointer;display:grid;gap:1px}
+.dt.sel{background:var(--n1);color:var(--s1)}
+.dt-t{display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:700;font-size:14px;line-height:1.35}
+.dt-s{font-size:13px;color:var(--n3);white-space:nowrap}
+.dt.sel .dt-s{color:var(--s1);opacity:.72}
 .dt .dots{gap:3px}
-.dt:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
+.dt.sel .dot.pd{box-shadow:inset 0 0 0 2px var(--s1);opacity:.6}
 
 /* crests */
-.cr{position:relative;flex:none;width:22px;height:22px;display:inline-grid;place-items:center}
+.cr{position:relative;flex:none;width:20px;height:20px;display:inline-grid;place-items:center}
 .cr img{width:100%;height:100%;object-fit:contain;display:block}
-.cr.nf{border-radius:50%;background:var(--line2);color:var(--n2);font-size:12px;font-weight:700;line-height:1}
+.cr.nf{border-radius:50%;background:var(--line2);color:var(--n2);font-size:11px;font-weight:700;line-height:1}
 .cr.nf::before{content:attr(data-i)}
 .cr.sm{width:18px;height:18px}
 .cr.sm.nf{font-size:10px}
-.cr.cp{width:20px;height:20px}
-.cr.cp.nf{border-radius:5px}
+.cr.cp{width:28px;height:28px}
+.cr.cp.nf{border-radius:8px}
 .tab-r{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .tab-c{display:flex;flex:none}
 .tab-c .cr{margin-left:-5px;border-radius:50%;background:var(--card);box-shadow:0 0 0 2px var(--card)}
 .tab-c .cr:first-child{margin-left:0}
 .tab-c .cr.nf{background:var(--card2);color:var(--n2)}
 
-.pill{font-size:13px;font-weight:600;border-radius:999px;padding:2px 9px;white-space:nowrap;line-height:1.45}
-.pill.live{background:var(--pri-bg);color:var(--pri)}
+.pill{font-size:12px;font-weight:600;border-radius:24px;padding:3px 11px;white-space:nowrap;line-height:1.4}
+.pill.live{background:var(--play-bg);color:var(--play)}
+.pill.wait{background:var(--n5);color:var(--n2)}
 .pill.won{background:var(--won-bg);color:var(--won)}
 .pill.lost{background:var(--lost-bg);color:var(--lost)}
 
 @media (min-width:900px){
-  .wrap{display:grid;grid-template-columns:330px minmax(0,1fr);gap:20px;align-items:start;padding-top:20px}
-  .side{position:sticky;top:84px}
+  .wrap{display:grid;grid-template-columns:330px minmax(0,1fr);gap:16px;align-items:start;padding-top:16px}
+  .side{position:sticky;top:76px}
   .tabs{flex-direction:column;overflow:visible;margin:12px 0 0;padding:0}
   .tab{flex:none;width:auto}
   .dates{grid-column:1/-1;margin:0;padding:0}
 }
 
 /* banner + states */
-.banner{margin:12px 0 0;padding:10px 14px;border-radius:12px;font-size:14px;background:var(--lost-bg);color:var(--lost);border:1px solid var(--line2)}
+.banner{margin:12px 0 0;padding:10px 14px;border-radius:12px;font-size:14px;background:var(--lost-bg);color:var(--lost)}
 .banner.warn{background:var(--warn-bg);color:var(--warn)}
 @media (min-width:900px){.banner{margin:0 0 12px}}
 .empty{padding:36px 16px;text-align:center;color:var(--n2);font-size:15px}
@@ -147,13 +157,13 @@ button{font:inherit;color:inherit}
 @keyframes r{to{transform:rotate(360deg)}}
 
 /* ticket summary */
-.tk{margin-top:12px;padding:14px 16px}
+.tk{margin-top:12px;padding:16px}
 @media (min-width:900px){.tk{margin-top:0}}
 .tk-h{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.tk-h h2{margin:0;font-size:18px;font-weight:700;line-height:1.3;min-width:0}
-.tk-meta{font-size:14px;color:var(--n2);margin-top:2px}
+.tk-h h2{margin:0;font-size:17px;font-weight:700;line-height:1.3;min-width:0}
+.tk-meta{font-size:13px;color:var(--n3);margin-top:2px}
 .tk-n{display:grid;grid-template-columns:auto auto 1fr;gap:18px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
-.tk-n span{display:block;font-size:13px;color:var(--n2)}
+.tk-n span{display:block;font-size:13px;color:var(--n3)}
 .tk-n b{font-size:17px;font-variant-numeric:tabular-nums}
 .tk-n .big{text-align:right}
 .tk-n .big b{font-size:22px;line-height:1.2}
@@ -162,74 +172,78 @@ button{font:inherit;color:inherit}
 .seg{display:flex;gap:4px;margin-top:14px}
 .seg i{flex:1;height:6px;border-radius:3px;background:var(--line2)}
 .seg i.won{background:var(--won)}.seg i.lost{background:var(--lost)}.seg i.refund{background:var(--warn)}
-.seg i.on{background:var(--live);animation:p 1.4s infinite}
-.tk-f{display:flex;justify-content:space-between;gap:10px;font-size:14px;color:var(--n2);margin-top:8px;font-variant-numeric:tabular-nums}
-.tk-f .lv{color:var(--live);font-weight:600}
+.seg i.on{background:var(--play)}
+.tk-f{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--n2);margin-top:8px;font-variant-numeric:tabular-nums}
+.tk-f .cnt{display:flex;flex-wrap:wrap;gap:2px 12px}
+.tk-f .cnt b{font-weight:700;color:var(--n1)}
+.tk-f .cnt .w b{color:var(--won)}.tk-f .cnt .l b{color:var(--lost)}.tk-f .cnt .p b{color:var(--play)}
 
-/* match list */
+/* match list: league header + 48px-style rows */
 .list{margin-top:12px;overflow:hidden}
-.grp{display:flex;align-items:center;gap:8px;padding:9px 16px;font-size:14px;font-weight:600;color:var(--n2);background:var(--card2);border-top:1px solid var(--line)}
+.grp{display:flex;align-items:center;gap:12px;padding:10px 16px;border-top:1px solid var(--line)}
 .grp:first-child{border-top:0}
+.grp-t{min-width:0;display:grid;line-height:1.3}
+.grp-t b{font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.grp-t span{font-size:12px;font-weight:500;color:var(--n3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ev{border-top:1px solid var(--line)}
 .grp+.ev{border-top:0}
-.ev.won{background:linear-gradient(90deg,var(--won-bg),transparent 60%)}
-.ev.lost{background:linear-gradient(90deg,var(--lost-bg),transparent 60%)}
-.row{display:grid;grid-template-columns:52px minmax(0,1fr) 58px;column-gap:12px;row-gap:8px;padding:12px 14px 12px 8px;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.clk{grid-row:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:13px;color:var(--n2);border-right:1px solid var(--line);font-variant-numeric:tabular-nums;line-height:1.35}
-.clk .ko.big{font-size:15px;color:var(--n1);font-weight:600}
+.row{display:grid;grid-template-columns:48px minmax(0,1fr) 56px;column-gap:12px;row-gap:8px;padding:10px 14px 10px 8px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.clk{grid-row:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:12px;color:var(--n3);border-right:1px solid var(--line);font-variant-numeric:tabular-nums;line-height:1.35}
+.clk .ko.big{font-size:14px;color:var(--n1);font-weight:600}
 .clk .stt{font-weight:600}
 .clk .stt.live{color:var(--live);font-weight:700}
 .clk .stt.brk{color:var(--warn);font-weight:700}
 .teams{grid-row:1;min-width:0;align-self:center;display:grid;gap:5px}
-.tr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:15px;line-height:1.4;min-height:24px}
-.tr .nm{display:flex;align-items:center;gap:8px;min-width:0}
+.tr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px;line-height:1.4;min-height:22px}
+.tr .nm{display:flex;align-items:center;gap:10px;min-width:0}
 .tr .tn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tr .sc{font-weight:700;min-width:18px;text-align:right;font-variant-numeric:tabular-nums}
-.tr.dim{color:var(--n2)}.tr.dim .sc{font-weight:500}
+.tr.dim{color:var(--n3)}.tr.dim .sc{font-weight:500}
 .ev.on .tr .sc{color:var(--live)}
 .rc{flex:none;display:inline-block;width:8px;height:11px;border-radius:2px;background:#e8243b;margin-left:-2px}
-.odd{grid-row:1;align-self:center;height:42px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:15px;background:var(--card2);border:1px solid var(--line2);font-variant-numeric:tabular-nums}
-.odd.won{background:var(--won-bg);color:var(--won);border-color:var(--won)}
-.odd.lost{background:var(--lost-bg);color:var(--lost);border-color:var(--lost)}
-.odd.refund{background:var(--warn-bg);color:var(--warn);border-color:var(--warn)}
-.odd.good{box-shadow:inset 0 -3px 0 var(--good)}.odd.warn{box-shadow:inset 0 -3px 0 var(--warn)}.odd.bad{box-shadow:inset 0 -3px 0 var(--bad)}
+.odd{grid-row:1;align-self:center;height:36px;border-radius:8px;display:grid;place-items:center;font-weight:700;font-size:14px;background:var(--card2);font-variant-numeric:tabular-nums}
+.odd.won{background:var(--won-bg);color:var(--won)}
+.odd.lost{background:var(--lost-bg);color:var(--lost)}
+.odd.refund{background:var(--warn-bg);color:var(--warn)}
 .chips{grid-column:2/4;grid-row:2;display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-width:0}
-.chip{display:inline-flex;align-items:center;gap:5px;max-width:100%;font-size:14px;font-weight:600;line-height:1.4;border-radius:7px;padding:3px 9px;background:var(--pri-bg);color:var(--pri)}
+.chip{display:inline-flex;align-items:center;gap:5px;max-width:100%;font-size:13px;font-weight:600;line-height:1.4;border-radius:8px;padding:3px 10px;background:var(--n5);color:var(--n1)}
 .chip i{font-style:normal;font-weight:700}
 .chip.won{background:var(--won-bg);color:var(--won)}.chip.lost{background:var(--lost-bg);color:var(--lost)}.chip.refund{background:var(--warn-bg);color:var(--warn)}
-.bb{font-size:13px;font-weight:700;color:var(--n2);border:1px solid var(--line2);border-radius:6px;padding:2px 6px;line-height:1.35}
+.bb{font-size:12px;font-weight:700;color:var(--n2);background:var(--n5);border-radius:6px;padding:2px 7px;line-height:1.4}
 .chev{margin-left:auto;flex:none;width:9px;height:9px;border-right:2px solid var(--n3);border-bottom:2px solid var(--n3);transform:rotate(45deg);margin-right:6px;margin-top:-4px;transition:transform .15s}
 .row[aria-expanded="true"] .chev{transform:rotate(-135deg);margin-top:4px}
 .lerr{grid-column:2/4;grid-row:3;font-size:13px;color:var(--lost)}
-.lerr.idle{color:var(--n2)}
+.lerr.idle{color:var(--n3)}
+.pgs{grid-column:2/4;grid-row:3;display:grid;gap:2px;font-size:13px;color:var(--n2)}
+.pgs .need{color:var(--warn)}
 
 /* details */
 .det{margin:0 12px 12px;padding:12px 14px;border-radius:12px;background:var(--card2);display:grid;gap:14px}
-.det h3{margin:0 0 6px;font-size:14px;font-weight:600;color:var(--n2)}
-.cd{display:flex;gap:9px;align-items:flex-start;font-size:15px;padding:3px 0}
+.det h3{margin:0 0 6px;font-size:13px;font-weight:700;color:var(--n3)}
+.cd{display:flex;gap:9px;align-items:flex-start;font-size:14px;padding:3px 0}
 .cd i{flex:none;width:20px;height:20px;margin-top:1px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:700;background:var(--line2);color:var(--n1)}
 .cd.won i{background:var(--won);color:#fff}.cd.lost i{background:var(--lost);color:#fff}.cd.refund i{background:var(--warn);color:#fff}
 .cd.won{color:var(--won)}.cd.lost{color:var(--lost)}.cd.refund{color:var(--warn)}
-.cd.pending.good{color:var(--good)}.cd.pending.warn{color:var(--warn)}.cd.pending.bad{color:var(--bad)}
+.cd.pending.warn,.cd.pending.bad{color:var(--warn)}
 .htl{font-size:14px;color:var(--n1);background:var(--card);border-radius:8px;padding:7px 10px;font-variant-numeric:tabular-nums}
 .muted{margin:0;font-size:14px;color:var(--n2)}
 .derr{margin:0;font-size:14px;color:var(--lost)}
 .tl-r{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:14px}
 .tl-r.away{flex-direction:row-reverse;text-align:right}
-.tl-m{flex:none;min-width:38px;font-weight:600;color:var(--n2);font-variant-numeric:tabular-nums}
+.tl-m{flex:none;min-width:38px;font-weight:600;color:var(--n3);font-variant-numeric:tabular-nums}
 .tl-r.away .tl-m{text-align:right}
 .tl-x{min-width:0}
 .tl-x b{font-weight:600}
 .tl-s{flex:none;font-weight:700;background:var(--card);border-radius:6px;padding:0 7px;font-variant-numeric:tabular-nums}
 .ic-g{flex:none;width:16px;height:16px;color:var(--n1)}
 .ic-r{flex:none;width:10px;height:13px;border-radius:2px;background:#e8243b;margin:0 3px}
-.tl-d{text-align:center;font-size:13px;font-weight:600;color:var(--n2);padding:5px 0;margin:4px 0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);font-variant-numeric:tabular-nums}
-.sx-h{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:var(--n2);margin-bottom:4px}
+.tl-d{text-align:center;font-size:13px;font-weight:600;color:var(--n3);padding:5px 0;margin:4px 0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);font-variant-numeric:tabular-nums}
+.sx-h{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;color:var(--n3);margin-bottom:4px}
 .sx-h span{display:flex;align-items:center;gap:6px;min-width:0;overflow:hidden;white-space:nowrap}
 .sx-h span:last-child{justify-content:flex-end}
 .sx{padding:6px 0}
 .sx-top{display:grid;grid-template-columns:52px 1fr 52px;align-items:center;font-size:14px}
-.sx-l{text-align:center}
+.sx-l{text-align:center;color:var(--n2)}
 .sx-v{justify-self:start;font-weight:700;padding:1px 8px;border-radius:7px;font-variant-numeric:tabular-nums}
 .sx-v.a{justify-self:end}
 .sx-v.h.hi{background:var(--home);color:var(--on-home)}.sx-v.a.hi{background:var(--away);color:var(--on-away)}
@@ -240,16 +254,19 @@ button{font:inherit;color:inherit}
 .sx-b.h i{background:var(--home)}.sx-b.a i{background:var(--away)}
 .sx-b.hi i{opacity:1}
 
-.foot{font-size:13px;color:var(--n2);text-align:center;margin:16px 0 0}
+.key{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px;font-size:12px;color:var(--n3);margin:16px 0 0}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.key i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.foot{font-size:12px;color:var(--n3);text-align:center;margin:10px 0 0}
 
 /* toasts */
 .toasts{position:fixed;left:0;right:0;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;display:grid;gap:8px;justify-items:center;padding:0 16px;pointer-events:none}
-.toast{pointer-events:auto;cursor:pointer;width:100%;max-width:440px;display:flex;gap:10px;align-items:stretch;background:var(--toast);color:var(--on-toast);border-radius:12px;padding:11px 14px;box-shadow:0 10px 30px rgba(0,0,0,.35);font-size:14px;animation:tin .2s ease-out}
-.toast .tb{flex:none;width:4px;border-radius:2px;background:var(--pri)}
+.toast{pointer-events:auto;cursor:pointer;width:100%;max-width:440px;display:flex;gap:10px;align-items:stretch;background:var(--toast);color:var(--on-toast);border-radius:14px;padding:11px 14px;box-shadow:0 10px 30px rgba(0,0,0,.4);font-size:14px;animation:tin .2s ease-out}
+.toast .tb{flex:none;width:4px;border-radius:2px;background:var(--pri-fill)}
 .toast.won .tb{background:var(--won)}.toast.lost .tb,.toast.red .tb{background:var(--lost)}.toast.refund .tb{background:var(--warn)}.toast.goal .tb{background:var(--live)}
 .toast b{display:block;font-size:15px}
 @keyframes tin{from{transform:translateY(10px);opacity:0}}
-@media (prefers-reduced-motion:reduce){.livei.on::before,.dot.on,.seg i.on,.spin{animation:none}.toast{animation:none}}
+@media (prefers-reduced-motion:reduce){.spin,.toast{animation:none}}
 </style>
 </head>
 <body>
@@ -270,6 +287,7 @@ button{font:inherit;color:inherit}
   <section class="content">
     <div id="banner"></div>
     <div id="view" role="tabpanel"></div>
+    <div class="key" aria-label="ფერების მნიშვნელობა"><span><i style="box-shadow:inset 0 0 0 2px var(--n3)"></i>ელოდება</span><span><i style="background:var(--play)"></i>მიდის</span><span><i style="background:var(--warn)"></i>საჭიროებს გოლს</span><span><i style="background:var(--won)"></i>შესრულდა</span><span><i style="background:var(--lost)"></i>ჩავარდა</span></div>
     <p class="foot">მონაცემები: 365Scores, ახლდება ~20 წამში · ოფიციალური ანგარიშსწორება: Crocobet</p>
   </section>
 </main>
@@ -279,6 +297,9 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const ICON = { won:'✓', lost:'✗', refund:'↺', pending:'•' };
 const ST = { live: 'ცოცხალია', won: 'მოგებულია', lost: 'წაგებულია' };
+// A ticket that is still alive is "in play" only while one of its matches is on; otherwise it is waiting.
+const pillOf = t => t.status === 'live' ? (t.legs.some(l => l.m?.ongoing) ? ['live', 'მიმდინარეობს'] : ['wait', 'ელოდება']) : [t.status, ST[t.status]];
+const pillHtml = t => { const [c, x] = pillOf(t); return `<span class="pill ${c}">${x}</span>`; };
 const TICK = 20e3, IDLE = 5 * 60e3;
 const ls = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
@@ -290,7 +311,7 @@ const root = document.documentElement;
 const sysLight = () => { try { return matchMedia('(prefers-color-scheme: light)').matches; } catch { return false; } };
 function applyTheme() {
   const light = root.dataset.theme ? root.dataset.theme === 'light' : sysLight();
-  const meta = $('meta[name="theme-color"]'); if (meta) meta.content = light ? '#374df5' : '#17181d';
+  const meta = $('meta[name="theme-color"]'); if (meta) meta.content = light ? '#374df5' : '#000000';
 }
 { const t = ls.get('theme'); if (t === 'light' || t === 'dark') root.dataset.theme = t; }
 applyTheme();
@@ -596,9 +617,11 @@ async function getJSON(u) {
   catch (e) { throw new Error(e.name === 'AbortError' ? 'timeout' : e.message); }
   finally { clearTimeout(t); }
 }
+// A lost ticket is still followed (its other legs keep updating and alerting) while it is recent;
+// fully settled or old tickets cost no requests, and a finished match stops being polled once confirmed.
+const tracked = t => t.status === 'live' || (t.status === 'lost' && !!t.date && t.date >= tbsDate(new Date(Date.now() - 2 * 864e5).toISOString()));
 async function refresh(force) {
-  // Poll only matches that belong to a still-pending ticket (any date); settled tickets cost no requests.
-  const ids = [...new Set(build().filter(t => t.status === 'live').flatMap(t => t.legs.map(l => l.id)))]; const now = Date.now();
+  const ids = [...new Set(build().filter(tracked).flatMap(t => t.legs.map(l => l.id)))]; const now = Date.now();
   await Promise.all(ids.map(async id => {
     const gid = CFG.matches[id]?.s365; if (!gid) return;
     const c = cache.get(id);
@@ -658,7 +681,6 @@ const obsLeg = new Map(), obsMatch = new Map();
 const legKey = (t, l, i) => t.key + '|' + l.id + '|' + i;
 function ticketWasPending(t) {
   const st = t.legs.map((l, i) => obsLeg.get(legKey(t, l, i)));
-  if (st.some(s => s === 'lost')) return false;
   if (st.every(s => s && s !== 'pending')) return false;
   return true;
 }
@@ -765,7 +787,7 @@ function pickSel(state) {
   if (sel && state.some(t => t.key === sel)) return sel;
   const h = decodeURIComponent(location.hash.slice(1));
   if (h && state.some(t => t.key === h)) return h;
-  return (state.find(t => t.status === 'live') || state[0])?.key || null;
+  return (state.find(t => t.legs.some(l => l.m?.ongoing)) || state.find(t => t.status === 'live') || state[0])?.key || null;
 }
 const legTone = l => l.status !== 'pending' || !l.m ? '' : l.conds.some(c => c.tone === 'bad') ? 'bad' : l.conds.some(c => c.tone === 'warn') ? 'warn' : l.conds.some(c => c.tone === 'good') ? 'good' : '';
 const dotCls = l => l.status === 'pending' ? (l.m?.ongoing ? 'on' : '') : l.status;
@@ -786,7 +808,7 @@ function tabsView(state) {
       <span class="tab-n">${esc(t.name)}</span>
       <span class="tab-m">${t.stake} ₾ × ${t.odds.toFixed(2)}</span>
       <span class="tab-r"><span class="tab-p ${t.status}">${t.potential.toFixed(2)} ₾</span><span class="tab-c">${crs}</span></span>
-      <span class="tab-f"><span class="pill ${t.status}">${ST[t.status]}</span><span class="dots">${t.legs.map(l => `<span class="dot ${dotCls(l)}"></span>`).join('')}</span></span>
+      <span class="tab-f">${pillHtml(t)}<span class="dots">${t.legs.map(l => `<span class="dot ${dotCls(l)}"></span>`).join('')}</span></span>
     </button>`;
   }).join('');
 }
@@ -839,9 +861,11 @@ function details(l) {
     + (l.err ? `<p class="derr">ბოლო განახლება ვერ მოხერხდა (${esc(ERR(l.err))}) · ნაჩვენებია წინა მონაცემები</p>` : '');
 }
 function legRow(t, l, i) {
-  const m = l.m, k = legKey(t, l, i), isOpen = open.has(k) ? open.get(k) : !!m?.ongoing;
-  const idle = !m && t.status !== 'live'; // settled ticket: this match is no longer polled
+  const m = l.m, k = legKey(t, l, i), isOpen = open.has(k) ? open.get(k) : false;
+  const idle = !m && !tracked(t); // settled or old ticket: this match is no longer polled
   const fin = m && m.finished, started = m && m.started;
+  // collapsed live rows still say what is going on: one line per unsettled condition
+  const prog = m && m.started && l.status === 'pending' ? `<div class="pgs">${l.conds.filter(c => c.s === 'pending').map(c => `<span class="${c.tone === 'warn' || c.tone === 'bad' ? 'need' : ''}">${esc(c.text)}</span>`).join('')}</div>` : '';
   const lose = s => fin && (s === 'home' ? m.h < m.a : m.a < m.h);
   const reds = s => m ? '<i class="rc" aria-label="წითელი ბარათი"></i>'.repeat(m.reds.filter(r => r.side === s).length) : '';
   const team = s => `<div class="tr${lose(s) ? ' dim' : ''}"><span class="nm">${crest(teamLogo(l, s), l.names[s])}<span class="tn">${esc(l.names[s])}</span>${reds(s)}</span><b class="sc">${started ? (s === 'home' ? m.h : m.a) : ''}</b></div>`;
@@ -851,10 +875,16 @@ function legRow(t, l, i) {
       <div class="teams">${team('home')}${team('away')}</div>
       <div class="odd ${l.status} ${legTone(l)}">${l.odds.toFixed(2)}</div>
       <div class="chips">${chipsFor(l)}<span class="chev" aria-hidden="true"></span></div>
+      ${isOpen ? '' : prog}
       ${idle ? '<div class="lerr idle">ბილეთი დასრულებულია · ეს მატჩი აღარ მოწმდება</div>' : !m && l.err ? '<div class="lerr">მონაცემები ვერ ჩაიტვირთა · ვცდი ხელახლა</div>' : ''}
     </div>
     ${isOpen ? `<div class="det">${idle ? '<p class="muted">ბილეთი უკვე დასრულებულია, ამიტომ ეს მატჩი აღარ მოწმდება.</p>' : details(l)}</div>` : ''}
   </div>`;
+}
+function cnts(t) {
+  const w = t.legs.filter(l => l.status === 'won' || l.status === 'refund').length, lo = t.legs.filter(l => l.status === 'lost').length;
+  const pl = t.legs.filter(l => l.status === 'pending' && l.m?.ongoing).length, wt = t.legs.length - w - lo - pl;
+  return [[w, 'შესრულდა', 'w'], [pl, 'მიდის', 'p'], [wt, 'ელოდება', ''], [lo, 'ჩავარდა', 'l']].filter(x => x[0]).map(x => `<span class="${x[2]}"><b>${x[0]}</b> ${x[1]}</span>`).join('');
 }
 function ticketView(t) {
   const legs = t.legs.map((l, i) => ({ l, i })).sort((a, b) => (a.l.m?.utc || '').localeCompare(b.l.m?.utc || ''));
@@ -866,14 +896,14 @@ function ticketView(t) {
   const potCls = t.status === 'won' ? 'won' : t.status === 'lost' ? 'lost' : '';
   const effNote = t.legs.some(l => l.status === 'refund') ? ` · ეფექტური ${t.eff.toFixed(2)}` : '';
   return `<div class="card tk">
-      <div class="tk-h"><h2>${esc(t.name)}</h2><span class="pill ${t.status}">${ST[t.status]}</span></div>
+      <div class="tk-h"><h2>${esc(t.name)}</h2>${pillHtml(t)}</div>
       ${t.placed ? `<div class="tk-meta">${esc(t.placed)}</div>` : ''}
       <div class="tk-n"><div><span>ფსონი</span><b>${t.stake} ₾</b></div><div><span>კოეფიციენტი</span><b>${t.odds.toFixed(2)}</b></div>
         <div class="big"><span>${potLbl}</span><b class="${potCls}">${t.potential.toFixed(2)} ₾</b></div></div>
       <div class="seg">${legs.map(x => `<i class="${dotCls(x.l)}"></i>`).join('')}</div>
-      <div class="tk-f"><span>${t.settled}/${t.legs.length} დასრულდა${effNote}</span>${liveN ? `<span class="lv">ლაივში ${liveN}</span>` : next ? `<span>შემდეგი ${tbs(next)}</span>` : ''}</div>
+      <div class="tk-f"><span class="cnt">${cnts(t)}${effNote ? `<span>${effNote.slice(3)}</span>` : ''}</span>${next && !liveN ? `<span>შემდეგი ${tbs(next)}</span>` : ''}</div>
     </div>
-    <div class="card list">${groups.map(g => `${g.c ? `<div class="grp">${crest(compLogo(g.items[0].l), g.c, 'Competitions', 'cp')}<span>${esc(g.c)}</span></div>` : ''}${g.items.map(x => legRow(t, x.l, x.i)).join('')}`).join('')}</div>`;
+    <div class="card list">${groups.map(g => `${g.c ? `<div class="grp">${crest(compLogo(g.items[0].l), g.c, 'Competitions', 'cp')}<div class="grp-t"><b>${esc(g.c.split(', ').slice(1).join(', ') || g.c)}</b>${g.c.includes(', ') ? `<span>${esc(g.c.split(', ')[0])}</span>` : ''}</div></div>` : ''}${g.items.map(x => legRow(t, x.l, x.i)).join('')}`).join('')}</div>`;
 }
 function bannerView() {
   if (!CFG && cfgErr) return `<div class="banner">ბილეთების ფაილი ვერ ჩაიტვირთა (${esc(ERR(cfgErr))}) · ვცდი ხელახლა</div>`;
