@@ -457,6 +457,16 @@ function evalCond(c, m, names) {
     if ((m.firstHalfOver && h1 < need) || (m.finished && h2 < need)) return { s: 'lost', text };
     return pend(text, h1 >= need ? 'good' : 'neutral');
   }
+  if (c.type === 'btts_both_halves') {
+    const hg = { home: halfGoals(m, 'home'), away: halfGoals(m, 'away') };
+    const cell = (h, over) => { const n = ['home', 'away'].filter(x => hg[x][h] > 0).length; return { n, ok: n === 2, dead: over && n < 2 }; };
+    const c1 = cell('h1', m.firstHalfOver), c2 = cell('h2', m.finished);
+    const mk = x => x.ok ? '✓' : x.dead ? '✗' : '…';
+    const text = `ორივე გაიტანს · I ტაიმი ${c1.n}/2 ${mk(c1)} · II ტაიმი ${c2.n}/2 ${mk(c2)}`;
+    if (c1.ok && c2.ok) return { s: 'won', text };
+    if (c1.dead || c2.dead) return { s: 'lost', text };
+    return pend(text, c1.ok ? 'good' : 'neutral');
+  }
   if (c.type === 'htft') {
     const res = (hh, aa) => hh > aa ? '1' : hh < aa ? '2' : 'X';
     const want = { ht: String(c.ht).toUpperCase(), ft: c.ft === 'home' ? '1' : c.ft === 'away' ? '2' : 'X' };
@@ -530,7 +540,7 @@ function combine(list) {
 /* ---------- which stats each leg needs (365Scores stat ids) ---------- */
 const LBL = { 4:'დარტყმა კარში', 24:'დიდი შანსი', 3:'დარტყმები', 8:'კუთხური', 10:'ბურთის ფლობა', 11:'შეტევები', 1:'ყვითელი ბარათი', 2:'წითელი ბარათი', 12:'ფოლი', 13:'ჯარიმის დარტყმა', 23:'მეკარის სეივი' };
 const GOALS = [4, 24, 3, 8], RESULT = [4, 24, 10, 3];
-const NEED = { btts: GOALS, total_over: GOALS, team_over: GOALS, win: RESULT, dnb: RESULT, team_both_halves: [4, 24, 3], most_cards: [1, 2, 12, 13], both_halves_over: GOALS, htft: RESULT, scorer: GOALS, player_sot: [4, 3], no_lose: RESULT, half_total_over: GOALS, corners_over: [8, 3], team_sot_over: [4, 3, 24] };
+const NEED = { btts: GOALS, total_over: GOALS, team_over: GOALS, win: RESULT, dnb: RESULT, team_both_halves: [4, 24, 3], most_cards: [1, 2, 12, 13], both_halves_over: GOALS, htft: RESULT, btts_both_halves: GOALS, scorer: GOALS, player_sot: [4, 3], no_lose: RESULT, half_total_over: GOALS, corners_over: [8, 3], team_sot_over: [4, 3, 24] };
 // Two-sided comparison row; the side with more is drawn solid, the other faded.
 function statRow(key, pair) {
   const [h, a] = pair, hn = num(h), an = num(a), max = key == 10 ? 100 : Math.max(hn, an, 0.0001);
@@ -542,7 +552,7 @@ function statRow(key, pair) {
 // Half-time line, only for legs that depend on the halves.
 function htLine(l, m) {
   if (!m || !(m.ongoing || m.finished)) return '';
-  if (m.htScore && l.conds.some(c => ['team_both_halves', 'both_halves_over', 'htft'].includes(c.type)))
+  if (m.htScore && l.conds.some(c => ['team_both_halves', 'both_halves_over', 'htft', 'btts_both_halves'].includes(c.type)))
     return `<div class="htl">I ტაიმი: ${m.htScore.home}–${m.htScore.away}${m.secondHalf ? ` · II ტაიმი: ${m.h - m.htScore.home}–${m.a - m.htScore.away}` : ''}</div>`;
   return '';
 }
