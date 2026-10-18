@@ -549,6 +549,15 @@ function evalCond(c, m, names) {
     return pend(text, need - have <= 1 ? 'good' : 'neutral');
   }
   if (c.type === 'void') return { s: 'refund', text: c.text || 'გაბათილდა · ბრუნდება (1.00)' };
+  if (c.type === 'half_win') {
+    const lbl = `${c.half === 1 ? 'I' : 'II'} ტაიმი · ${tn(c.side)}`;
+    if (!m.started) return pend(lbl + ' იგებს ტაიმს');
+    const ht = m.htScore, h1 = ht ? ht.home - ht.away : m.h - m.a;
+    const d = c.half === 1 ? h1 : (ht ? (m.h - ht.home) - (m.a - ht.away) : 0);
+    const dd = c.side === 'home' ? d : -d, over = c.half === 1 ? m.firstHalfOver : m.finished;
+    if (over) return dd > 0 ? { s: 'won', text: lbl + ' მოიგო' } : { s: 'lost', text: lbl + ' ვერ მოიგო' };
+    return pend(lbl + (dd > 0 ? ' იგებს' : dd === 0 ? ' · ფრეა' : ' აგებს'), dd > 0 ? 'good' : 'bad');
+  }
   if (c.type === 'manual') return pend(c.text || 'ხელით შესამოწმებელია');
   return pend('უცნობი პირობა');
 }
