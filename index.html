@@ -548,6 +548,7 @@ function evalCond(c, m, names) {
     if (m.finished) return { s: 'lost', text };
     return pend(text, need - have <= 1 ? 'good' : 'neutral');
   }
+  if (c.type === 'void') return { s: 'refund', text: c.text || 'გაბათილდა · ბრუნდება (1.00)' };
   if (c.type === 'manual') return pend(c.text || 'ხელით შესამოწმებელია');
   return pend('უცნობი პირობა');
 }
