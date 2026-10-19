@@ -1560,9 +1560,98 @@
         }
       },
       "s365": 4755380
+    },
+    "ma_4732674": {
+      "home": "პარმა",
+      "away": "ტორინო",
+      "comp": "იტალია, სერია A",
+      "s365": 4732674,
+      "logo": {
+        "home": {
+          "id": 241,
+          "v": 4
+        },
+        "away": {
+          "id": 235,
+          "v": 5
+        },
+        "comp": {
+          "id": 17,
+          "v": 3
+        }
+      }
     }
   },
   "tickets": [
+    {
+      "key": "t28",
+      "date": "2026-10-19",
+      "placed": "19 ოქტ 22:41 · #90929523",
+      "stake": 3.36,
+      "odds": 41.91,
+      "name": "ლაივი · 3.36 ₾",
+      "legs": [
+        {
+          "fotmob": "ma_4732674",
+          "bet": "J.D. Romero კარში დარტყმები 1+",
+          "odds": 1.4,
+          "conds": [
+            {
+              "type": "player_sot",
+              "side": "home",
+              "name": "Romero",
+              "line": 0.5
+            }
+          ]
+        },
+        {
+          "fotmob": "57252494",
+          "bet": "BB: ძირითადი შედეგი 1 + ორივე გაიტანს კი",
+          "odds": 2.99,
+          "conds": [
+            {
+              "type": "win",
+              "side": "home"
+            },
+            {
+              "type": "btts"
+            }
+          ]
+        },
+        {
+          "fotmob": "57296648",
+          "bet": "ბარათების რ-ბა მეტი (6.5)",
+          "odds": 1.9,
+          "conds": [
+            {
+              "type": "cards_over",
+              "line": 6.5
+            }
+          ]
+        },
+        {
+          "fotmob": "57296648",
+          "bet": "BB: ორმაგი შედეგი X2 + გოლების რ-ბა ნაკლები (2.5) + S. Camello კარში დარტყმები 2+",
+          "odds": 5.27,
+          "conds": [
+            {
+              "type": "no_lose",
+              "side": "away"
+            },
+            {
+              "type": "total_under",
+              "line": 2.5
+            },
+            {
+              "type": "player_sot",
+              "side": "away",
+              "name": "Camello",
+              "line": 1.5
+            }
+          ]
+        }
+      ]
+    },
     {
       "key": "t27",
       "date": "2026-10-19",
