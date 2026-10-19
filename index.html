@@ -549,6 +549,29 @@ function evalCond(c, m, names) {
     return pend(text, need - have <= 1 ? 'good' : 'neutral');
   }
   if (c.type === 'void') return { s: 'refund', text: c.text || 'გაბათილდა · ბრუნდება (1.00)' };
+  if (c.type === 'total_under') {
+    const tot = m.h + m.a, text = `გოლები ${tot} · ნაკლები ${c.line}`;
+    if (tot > c.line) return { s: 'lost', text };
+    if (m.finished) return { s: 'won', text };
+    return pend(text, c.line - tot >= 1.5 ? 'good' : 'neutral');
+  }
+  if (c.type === 'half_total_under') {
+    const tot = m.h + m.a, h1 = m.htScore ? m.htScore.home + m.htScore.away : tot;
+    const half = c.half === 1 ? h1 : (m.htScore ? tot - h1 : 0), over = c.half === 1 ? m.firstHalfOver : m.finished;
+    const text = `${c.half === 1 ? 'I' : 'II'} ტაიმი: გოლები ${half} · ნაკლები ${c.line}`;
+    if (half > c.line) return { s: 'lost', text };
+    if (over) return { s: 'won', text };
+    return pend(text, 'neutral');
+  }
+  if (c.type === 'cards_over') {
+    const need = Math.floor(c.line) + 1, y = m.stats[1], r = m.stats[2];
+    const tot = y ? num(y[0]) + num(y[1]) + (r ? num(r[0]) + num(r[1]) : 0) : null;
+    if (tot == null) return pend(`ბარათები ${need}+ · მონაცემი ჯერ არ არის`);
+    const text = `ბარათები ${tot}/${need}`;
+    if (tot >= need) return { s: 'won', text };
+    if (m.finished) return { s: 'lost', text };
+    return pend(text, need - tot <= 2 ? 'good' : 'neutral');
+  }
   if (c.type === 'half_win') {
     const lbl = `${c.half === 1 ? 'I' : 'II'} ტაიმი · ${tn(c.side)}`;
     if (!m.started) return pend(lbl + ' იგებს ტაიმს');
