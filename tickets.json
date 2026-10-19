@@ -1564,51 +1564,6 @@
   },
   "tickets": [
     {
-      "key": "t28",
-      "date": "2026-10-19",
-      "placed": "19 ოქტ · #90913626",
-      "stake": 15,
-      "odds": 41.46,
-      "name": "ბილეთი 3 · 15 ₾",
-      "legs": [
-        {
-          "fotmob": "57684719",
-          "bet": "ორივე ტაიმში 1.5-ზე მეტი გოლი კი",
-          "odds": 3.35,
-          "conds": [
-            {
-              "type": "both_halves_over",
-              "line": 1.5
-            }
-          ]
-        },
-        {
-          "fotmob": "57296648",
-          "bet": "S. Camello კარში დარტყმები 2+",
-          "odds": 2.75,
-          "conds": [
-            {
-              "type": "player_sot",
-              "side": "away",
-              "name": "Camello",
-              "line": 1.5
-            }
-          ]
-        },
-        {
-          "fotmob": "57296648",
-          "bet": "ბარათების რ-ბა მეტი (8.5)",
-          "odds": 4.5,
-          "conds": [
-            {
-              "type": "cards_over",
-              "line": 8.5
-            }
-          ]
-        }
-      ]
-    },
-    {
       "key": "t27",
       "date": "2026-10-19",
       "placed": "19 ოქტ 15:39 · #90910977",
