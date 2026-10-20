@@ -1704,6 +1704,48 @@
   },
   "tickets": [
     {
+      "key": "t33",
+      "date": "2026-10-20",
+      "placed": "20 ოქტ · ლაივი · კოეფ. დასაზუსტებელი",
+      "stake": 5,
+      "odds": 1,
+      "name": "ლაივი · სქორერები · 5 ₾",
+      "legs": [
+        {
+          "fotmob": "ma_4828459",
+          "bet": "BB: G. Til გაიტანს + ძირითადი შედეგი 2",
+          "odds": 1,
+          "conds": [
+            {
+              "type": "scorer",
+              "side": "away",
+              "name": "Til"
+            },
+            {
+              "type": "win",
+              "side": "away"
+            }
+          ]
+        },
+        {
+          "fotmob": "ma_4828461",
+          "bet": "BB: Raphinha გაიტანს + ძირითადი შედეგი 2",
+          "odds": 1,
+          "conds": [
+            {
+              "type": "scorer",
+              "side": "away",
+              "name": "Raphinha"
+            },
+            {
+              "type": "win",
+              "side": "away"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "key": "t32",
       "date": "2026-10-20",
       "placed": "20 ოქტ 22:58 · #90995808",
