@@ -1704,6 +1704,62 @@
   },
   "tickets": [
     {
+      "key": "t32",
+      "date": "2026-10-20",
+      "placed": "20 ოქტ 22:58 · #90995808",
+      "stake": 10,
+      "odds": 25.22,
+      "name": "ბილეთი 10 ₾ · BB",
+      "legs": [
+        {
+          "fotmob": "ma_4828463",
+          "bet": "გოლს გაიტანს: P. Foden",
+          "odds": 2.65,
+          "conds": [
+            {
+              "type": "scorer",
+              "side": "home",
+              "name": "Foden"
+            }
+          ]
+        },
+        {
+          "fotmob": "ma_4828461",
+          "bet": "BB: ძირითადი შედეგი 2 + გოლების რ-ბა მეტი (3.5) + ორივე გაიტანს კი",
+          "odds": 4.23,
+          "conds": [
+            {
+              "type": "win",
+              "side": "away"
+            },
+            {
+              "type": "total_over",
+              "line": 3.5
+            },
+            {
+              "type": "btts"
+            }
+          ]
+        },
+        {
+          "fotmob": "ma_4828464",
+          "bet": "გოლები (OT): D. Malen 2+",
+          "odds": 2.25,
+          "conds": [
+            {
+              "type": "scorer",
+              "side": "home",
+              "name": "Malen"
+            },
+            {
+              "type": "manual",
+              "text": "Malen-ს 2 გოლი სჭირდება — მეორე ხელით შეამოწმე"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "key": "t30",
       "date": "2026-10-20",
       "placed": "20 ოქტ 18:36 · #90960597",
