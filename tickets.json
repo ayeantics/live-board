@@ -1,5 +1,5 @@
 {
-  "_help": "Conditions: btts | total_over{line} | team_over{side,line} | win{side} | dnb{side} | team_both_halves{side} | most_cards{side}. side = home|away. Legs reference a key of matches; s365 = 365Scores game id.",
+  "_help": "Conditions: points_over{line} (table tennis, match.croco + croco-relay.mjs) | btts | total_over{line} | team_over{side,line} | win{side} | dnb{side} | team_both_halves{side} | most_cards{side}. side = home|away. Legs reference a key of matches; s365 = 365Scores game id.",
   "matches": {
     "5103658": {
       "home": "ბრაგანტინო",
@@ -1701,186 +1701,51 @@
         }
       }
     },
-    "x_villa_viking": {
-      "home": "ასტონ ვილა",
-      "away": "ვიკინგი",
-      "comp": "ჩემპიონთა ლიგა",
-      "logo": {
-        "home": {
-          "id": 109,
-          "v": 6
-        },
-        "away": {
-          "id": 1980,
-          "v": 2
-        },
-        "comp": {
-          "id": 572,
-          "v": 1
-        }
-      }
-    },
-    "x_inter_shakhtar": {
-      "home": "ინტერი",
-      "away": "შახტარი",
-      "comp": "ჩემპიონთა ლიგა",
-      "logo": {
-        "home": {
-          "id": 224,
-          "v": 6
-        },
-        "away": {
-          "id": 1955,
-          "v": 3
-        },
-        "comp": {
-          "id": 572,
-          "v": 1
-        }
-      }
-    },
-    "x_betis_feyenoord": {
-      "home": "ბეტისი",
-      "away": "ფეიენორდი",
-      "comp": "ჩემპიონთა ლიგა",
-      "logo": {
-        "home": {
-          "id": 146,
-          "v": 7
-        },
-        "away": {
-          "id": 691,
-          "v": 6
-        },
-        "comp": {
-          "id": 572,
-          "v": 1
-        }
-      }
-    },
-    "x_brugge_lens": {
-      "home": "ბრიუგე",
-      "away": "ლანსი",
-      "comp": "ჩემპიონთა ლიგა",
-      "logo": {
-        "home": {
-          "id": 1169,
-          "v": 7
-        },
-        "away": {
-          "id": 481,
-          "v": 5
-        },
-        "comp": {
-          "id": 572,
-          "v": 1
-        }
-      }
-    },
-    "x_real_leipzig": {
-      "home": "რეალი",
-      "away": "ლაიფციგი",
-      "comp": "ჩემპიონთა ლიგა",
-      "logo": {
-        "home": {
-          "id": 131,
-          "v": 10
-        },
-        "away": {
-          "id": 7171,
-          "v": 3
-        },
-        "comp": {
-          "id": 572,
-          "v": 1
-        }
+    "cb_58092408": {
+      "home": "ო. კნაზიკი",
+      "away": "ი. დონალი",
+      "comp": "მაგიდის ჩოგბურთი · TT Cup",
+      "croco": 58092408,
+      "live": {
+        "score": "0:2",
+        "sets": [
+          [
+            7,
+            11
+          ],
+          [
+            8,
+            11
+          ],
+          [
+            9,
+            6
+          ]
+        ],
+        "info": "III სეტი",
+        "finished": false,
+        "start": "2026-10-21T21:25:00.000Z",
+        "at": 1792618777030
       }
     }
   },
   "tickets": [
     {
       "key": "t34",
-      "date": "2026-10-21",
-      "placed": "21 ოქტ 14:28",
-      "stake": 10,
-      "odds": 78.65,
-      "name": "ჩემპიონთა ლიგა · 10 ₾",
+      "date": "2026-10-22",
+      "placed": "22 ოქტ · ლაივი · ფსონი დასაზუსტებელი",
+      "stake": 0,
+      "odds": 1.7,
+      "name": "ლაივი · მაგიდის ჩოგბურთი",
       "legs": [
         {
-          "fotmob": "x_villa_viking",
-          "bet": "BB: გოლების რ-ბა მეტი (3.5) + ორივე გაიტანს კი",
-          "odds": 2.3,
+          "fotmob": "cb_58092408",
+          "bet": "ტოტალი 75.5 → მეტი",
+          "odds": 1.7,
           "conds": [
             {
-              "type": "total_over",
-              "line": 3.5
-            },
-            {
-              "type": "btts"
-            }
-          ]
-        },
-        {
-          "fotmob": "x_inter_shakhtar",
-          "bet": "BB: გოლების რ-ბა მეტი (2.5) + ძირითადი შედეგი 1",
-          "odds": 1.5,
-          "conds": [
-            {
-              "type": "total_over",
-              "line": 2.5
-            },
-            {
-              "type": "win",
-              "side": "home"
-            }
-          ]
-        },
-        {
-          "fotmob": "x_betis_feyenoord",
-          "bet": "BB: გოლების რ-ბა მეტი (3.5) + ორივე გაიტანს კი",
-          "odds": 2.19,
-          "conds": [
-            {
-              "type": "total_over",
-              "line": 3.5
-            },
-            {
-              "type": "btts"
-            }
-          ]
-        },
-        {
-          "fotmob": "x_brugge_lens",
-          "bet": "F. Thauvin კარში დარტყმები 2+",
-          "odds": 3.1,
-          "conds": [
-            {
-              "type": "player_sot",
-              "side": "away",
-              "name": "Thauvin",
-              "line": 1.5
-            }
-          ]
-        },
-        {
-          "fotmob": "x_brugge_lens",
-          "bet": "ბარათების რ-ბა მეტი (4.5)",
-          "odds": 2.3,
-          "conds": [
-            {
-              "type": "cards_over",
-              "line": 4.5
-            }
-          ]
-        },
-        {
-          "fotmob": "x_real_leipzig",
-          "bet": "გოლების რ-ბა მეტი (3.5)",
-          "odds": 1.46,
-          "conds": [
-            {
-              "type": "total_over",
-              "line": 3.5
+              "type": "points_over",
+              "line": 75.5
             }
           ]
         }
