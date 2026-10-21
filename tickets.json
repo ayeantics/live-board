@@ -1700,9 +1700,192 @@
           "v": 5
         }
       }
+    },
+    "x_villa_viking": {
+      "home": "ასტონ ვილა",
+      "away": "ვიკინგი",
+      "comp": "ჩემპიონთა ლიგა",
+      "logo": {
+        "home": {
+          "id": 109,
+          "v": 6
+        },
+        "away": {
+          "id": 1980,
+          "v": 2
+        },
+        "comp": {
+          "id": 572,
+          "v": 1
+        }
+      }
+    },
+    "x_inter_shakhtar": {
+      "home": "ინტერი",
+      "away": "შახტარი",
+      "comp": "ჩემპიონთა ლიგა",
+      "logo": {
+        "home": {
+          "id": 224,
+          "v": 6
+        },
+        "away": {
+          "id": 1955,
+          "v": 3
+        },
+        "comp": {
+          "id": 572,
+          "v": 1
+        }
+      }
+    },
+    "x_betis_feyenoord": {
+      "home": "ბეტისი",
+      "away": "ფეიენორდი",
+      "comp": "ჩემპიონთა ლიგა",
+      "logo": {
+        "home": {
+          "id": 146,
+          "v": 7
+        },
+        "away": {
+          "id": 691,
+          "v": 6
+        },
+        "comp": {
+          "id": 572,
+          "v": 1
+        }
+      }
+    },
+    "x_brugge_lens": {
+      "home": "ბრიუგე",
+      "away": "ლანსი",
+      "comp": "ჩემპიონთა ლიგა",
+      "logo": {
+        "home": {
+          "id": 1169,
+          "v": 7
+        },
+        "away": {
+          "id": 481,
+          "v": 5
+        },
+        "comp": {
+          "id": 572,
+          "v": 1
+        }
+      }
+    },
+    "x_real_leipzig": {
+      "home": "რეალი",
+      "away": "ლაიფციგი",
+      "comp": "ჩემპიონთა ლიგა",
+      "logo": {
+        "home": {
+          "id": 131,
+          "v": 10
+        },
+        "away": {
+          "id": 7171,
+          "v": 3
+        },
+        "comp": {
+          "id": 572,
+          "v": 1
+        }
+      }
     }
   },
   "tickets": [
+    {
+      "key": "t34",
+      "date": "2026-10-21",
+      "placed": "21 ოქტ 14:28",
+      "stake": 10,
+      "odds": 78.65,
+      "name": "ჩემპიონთა ლიგა · 10 ₾",
+      "legs": [
+        {
+          "fotmob": "x_villa_viking",
+          "bet": "BB: გოლების რ-ბა მეტი (3.5) + ორივე გაიტანს კი",
+          "odds": 2.3,
+          "conds": [
+            {
+              "type": "total_over",
+              "line": 3.5
+            },
+            {
+              "type": "btts"
+            }
+          ]
+        },
+        {
+          "fotmob": "x_inter_shakhtar",
+          "bet": "BB: გოლების რ-ბა მეტი (2.5) + ძირითადი შედეგი 1",
+          "odds": 1.5,
+          "conds": [
+            {
+              "type": "total_over",
+              "line": 2.5
+            },
+            {
+              "type": "win",
+              "side": "home"
+            }
+          ]
+        },
+        {
+          "fotmob": "x_betis_feyenoord",
+          "bet": "BB: გოლების რ-ბა მეტი (3.5) + ორივე გაიტანს კი",
+          "odds": 2.19,
+          "conds": [
+            {
+              "type": "total_over",
+              "line": 3.5
+            },
+            {
+              "type": "btts"
+            }
+          ]
+        },
+        {
+          "fotmob": "x_brugge_lens",
+          "bet": "F. Thauvin კარში დარტყმები 2+",
+          "odds": 3.1,
+          "conds": [
+            {
+              "type": "player_sot",
+              "side": "away",
+              "name": "Thauvin",
+              "line": 1.5
+            }
+          ]
+        },
+        {
+          "fotmob": "x_brugge_lens",
+          "bet": "ბარათების რ-ბა მეტი (4.5)",
+          "odds": 2.3,
+          "conds": [
+            {
+              "type": "cards_over",
+              "line": 4.5
+            }
+          ]
+        },
+        {
+          "fotmob": "x_real_leipzig",
+          "bet": "გოლების რ-ბა მეტი (3.5)",
+          "odds": 1.46,
+          "conds": [
+            {
+              "type": "total_over",
+              "line": 3.5
+            }
+          ]
+        }
+      ]
+    },
     {
       "key": "t33",
       "date": "2026-10-20",
