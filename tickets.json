@@ -2196,9 +2196,197 @@
         "start": "2026-10-22T23:00:00.000Z",
         "at": 1792710915304
       }
+    },
+    "x_bayer_regner": {
+      "home": "ა. ბაიერი",
+      "away": "მიხ. რეგნერი",
+      "comp": "მაგიდის ჩოგბურთი · ჩეხეთი, ლიგა პრო",
+      "logo": {}
+    },
+    "x_cermak_tuma": {
+      "home": "ვ. ჩერმაკი",
+      "away": "დ. ტუმა",
+      "comp": "მაგიდის ჩოგბურთი · ჩეხეთი, ლიგა პრო",
+      "logo": {}
+    },
+    "x_cruzeiro_remo": {
+      "home": "კრუზეირო",
+      "away": "რემო",
+      "comp": "ბრაზილია · სერია A",
+      "logo": {
+        "home": {
+          "id": 1213,
+          "v": 8
+        },
+        "comp": {
+          "id": 113,
+          "v": 1
+        }
+      }
+    },
+    "x_sport_criciuma": {
+      "home": "სპორტ რესიფე",
+      "away": "კრისიუმა",
+      "comp": "ბრაზილია · სერია B",
+      "logo": {
+        "away": {
+          "id": 1780,
+          "v": 8
+        },
+        "comp": {
+          "id": 116,
+          "v": 1
+        }
+      }
+    },
+    "x_necaxa_juarez": {
+      "home": "ნეკაქსა",
+      "away": "ხუარესი",
+      "comp": "მექსიკა · ლიგა MX",
+      "logo": {
+        "comp": {
+          "id": 141,
+          "v": 2
+        }
+      }
+    },
+    "x_junior_aguilas": {
+      "home": "ხუნიორი",
+      "away": "აგილასი",
+      "comp": "კოლუმბია · პრიმერა A",
+      "logo": {
+        "comp": {
+          "id": 620,
+          "v": 1
+        }
+      }
+    },
+    "x_lakers_clippers": {
+      "home": "ლეიკერსი",
+      "away": "კლიპერსი",
+      "comp": "კალათბურთი · NBA",
+      "logo": {
+        "home": {
+          "id": 1317,
+          "v": 9
+        },
+        "comp": {
+          "id": 103,
+          "v": 1
+        }
+      }
+    },
+    "x_atlante_sanluis": {
+      "home": "ატლანტე",
+      "away": "სან ლუისი",
+      "comp": "მექსიკა · ლიგა MX",
+      "logo": {
+        "comp": {
+          "id": 141,
+          "v": 2
+        }
+      }
     }
   },
   "tickets": [
+    {
+      "key": "t40c",
+      "date": "2026-10-24",
+      "placed": "24 ოქტ · ღამის ბილეთი · 10.27",
+      "stake": 10,
+      "odds": 10.27,
+      "name": "ღამის ბილეთი · 8 პოზიცია · 10 ₾",
+      "legs": [
+        {
+          "fotmob": "x_bayer_regner",
+          "bet": "1 2 → 2 (რეგნერი)",
+          "odds": 1.7,
+          "conds": [
+            {
+              "type": "win",
+              "side": "away"
+            }
+          ]
+        },
+        {
+          "fotmob": "x_cermak_tuma",
+          "bet": "1 2 → 2 (ტუმა)",
+          "odds": 1.8,
+          "conds": [
+            {
+              "type": "win",
+              "side": "away"
+            }
+          ]
+        },
+        {
+          "fotmob": "x_cruzeiro_remo",
+          "bet": "ბარათების რ-ბა მეტი (2.5)",
+          "odds": 1.12,
+          "conds": [
+            {
+              "type": "cards_over",
+              "line": 2.5
+            }
+          ]
+        },
+        {
+          "fotmob": "x_sport_criciuma",
+          "bet": "გოლების რ-ბა მეტი (1.5)",
+          "odds": 1.29,
+          "conds": [
+            {
+              "type": "total_over",
+              "line": 1.5
+            }
+          ]
+        },
+        {
+          "fotmob": "x_necaxa_juarez",
+          "bet": "გოლების რ-ბა მეტი (1.5)",
+          "odds": 1.19,
+          "conds": [
+            {
+              "type": "total_over",
+              "line": 1.5
+            }
+          ]
+        },
+        {
+          "fotmob": "x_junior_aguilas",
+          "bet": "გოლების რ-ბა მეტი (1.5)",
+          "odds": 1.26,
+          "conds": [
+            {
+              "type": "total_over",
+              "line": 1.5
+            }
+          ]
+        },
+        {
+          "fotmob": "x_lakers_clippers",
+          "bet": "1 2 (OT) → 1 (ლეიკერსი)",
+          "odds": 1.28,
+          "conds": [
+            {
+              "type": "win",
+              "side": "home"
+            }
+          ]
+        },
+        {
+          "fotmob": "x_atlante_sanluis",
+          "bet": "გოლების რ-ბა მეტი (1.5)",
+          "odds": 1.21,
+          "conds": [
+            {
+              "type": "total_over",
+              "line": 1.5
+            }
+          ]
+        }
+      ]
+    },
     {
       "key": "t39",
       "date": "2026-10-23",
