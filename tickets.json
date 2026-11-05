@@ -2601,74 +2601,9 @@
   "tickets": [
     {
       "date": "2026-11-05",
-      "key": "2026-11-05-styles-a",
-      "placed": "5 ნოე · Styles Make Fights (A)",
-      "name": "Styles Make Fights · A · 5 ₾",
-      "stake": 5,
-      "odds": 28.27,
-      "legs": [
-        {
-          "fotmob": "58132742",
-          "bet": "II გუნდის გოლები მეტი (1.5)",
-          "odds": 2.25,
-          "conds": [
-            {
-              "type": "team_over",
-              "side": "away",
-              "line": 1.5
-            }
-          ]
-        },
-        {
-          "fotmob": "58132748",
-          "bet": "II გუნდის გოლები მეტი (1.5)",
-          "odds": 2.4,
-          "conds": [
-            {
-              "type": "team_over",
-              "side": "away",
-              "line": 1.5
-            }
-          ]
-        },
-        {
-          "fotmob": "58133791",
-          "bet": "BB: ძირითადი შედეგი 1 + გოლების რ-ბა მეტი (1.5)",
-          "odds": 2.83,
-          "conds": [
-            {
-              "type": "win",
-              "side": "home"
-            },
-            {
-              "type": "total_over",
-              "line": 1.5
-            }
-          ]
-        },
-        {
-          "fotmob": "58132958",
-          "bet": "ტაიმი/მატჩი 2/2 და გოლები მეტი (1.5)",
-          "odds": 1.85,
-          "conds": [
-            {
-              "type": "htft",
-              "ht": "2",
-              "ft": "away"
-            },
-            {
-              "type": "total_over",
-              "line": 1.5
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "date": "2026-11-05",
       "key": "2026-11-05-styles-b",
-      "placed": "5 ნოე · Styles Make Fights (B)",
-      "name": "Styles Make Fights · B (დაზღვეული) · 5 ₾",
+      "placed": "5 ნოე · Styles Make Fights",
+      "name": "Styles Make Fights · 5 ₾",
       "stake": 5,
       "odds": 28.97,
       "legs": [
