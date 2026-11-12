@@ -13,14 +13,15 @@
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" type="image/svg+xml" href="icon.svg" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-    <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
+    <!-- theme-color is the header strip (--strip in src/tokens.css): #222220 dark, #DCDBD4 light; the app keeps it in step on a theme switch -->
+    <script>try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}try{if(t==='light'||t==='dark'?t==='light':matchMedia('(prefers-color-scheme: light)').matches)document.querySelector('meta[name="theme-color"]').setAttribute('content','#DCDBD4')}catch(e){}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600..800&family=Noto+Sans+Georgian:wdth,wght@62.5..100,100..900&display=swap" rel="stylesheet" />
     <!-- the board's ground before the stylesheet arrives (same values as --board in src/tokens.css) -->
     <style>html,body{background:#181817}@media (prefers-color-scheme:light){html:not([data-theme=dark]),html:not([data-theme=dark]) body{background:#e8e7e1}}html[data-theme=light],html[data-theme=light] body{background:#e8e7e1}</style>
-    <script type="module" crossorigin src="./assets/index-DZsSOKzL.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-mGT2WzRd.css">
+    <script type="module" crossorigin src="./assets/index-BQaTt4-O.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-D762q9oM.css">
   </head>
   <body>
     <div id="root"></div>
