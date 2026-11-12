@@ -1,5 +1,5 @@
 {
- "_help": "Conditions: points_over{line} | sets_exact{line} (table tennis, match.croco + croco-relay.mjs) | btts | total_over{line} | team_over{side,line} | win{side} | dnb{side} | team_both_halves{side} | most_cards{side} | twos_over{side,line} (basketball two-pointers made) | player_stat{side,name,stat,line} (basketball, 365 stat type: 18 assists, 17 rebounds, 2 points). Integer lines on half_total_over refund on the exact number. side = home|away. Legs reference a key of matches; s365 = 365Scores game id.",
+ "_help": "Conditions: points_over{line} | sets_exact{line} (table tennis, match.croco + croco-relay.mjs) | btts | total_over{line} | team_over{side,line} | win{side} | dnb{side} | team_both_halves{side} | most_cards{side} | twos_over{side,line} (basketball two-pointers made) | player_stat{side,name,stat,line} (basketball, 365 stat type: 18 assists, 17 rebounds, 2 points). Integer lines on half_total_over refund on the exact number. side = home|away. Legs reference a key of matches; s365 = 365Scores game id. Also: half_win{side,half} | half_draw{half} (that half ends level) | most_corners{side} | player_sot{side,name,line} | scorer{side,name}.",
  "matches": {
   "5103658": {
    "home": "ბრაგანტინო",
@@ -1783,6 +1783,26 @@
     }
    }
   },
+  "58010149": {
+   "home": "იტალია",
+   "away": "საფრანგეთი",
+   "comp": "UEFA · ერთა ლიგა",
+   "s365": 4672305,
+   "logo": {
+    "home": {
+     "id": 2375,
+     "v": 3
+    },
+    "away": {
+     "id": 5061,
+     "v": 3
+    },
+    "comp": {
+     "id": 7016,
+     "v": 1
+    }
+   }
+  },
   "58010150": {
    "home": "ინგლისი",
    "away": "ხორვატია",
@@ -2099,6 +2119,26 @@
     },
     "comp": {
      "id": 103,
+     "v": 1
+    }
+   }
+  },
+  "58325232": {
+   "home": "მონტენეგრო",
+   "away": "ლატვია",
+   "comp": "UEFA · ერთა ლიგა",
+   "s365": 4697787,
+   "logo": {
+    "home": {
+     "id": 5063,
+     "v": 3
+    },
+    "away": {
+     "id": 2300,
+     "v": 2
+    },
+    "comp": {
+     "id": 7016,
      "v": 1
     }
    }
@@ -2887,6 +2927,48 @@
        "type": "half_win",
        "half": 2,
        "side": "away"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "date": "2026-11-12",
+   "key": "2026-11-12-longshot",
+   "placed": "12 ნოე · 6.43 ₾ → 216 ₾",
+   "name": "ლონგშოტი · 6.43 ₾",
+   "stake": 6.43,
+   "odds": 33.52,
+   "legs": [
+    {
+     "fotmob": "58010149",
+     "bet": "BB: I ტაიმის შედეგი → X + II ტაიმის შედეგი → 2",
+     "odds": 5.71,
+     "conds": [
+      {
+       "type": "half_draw",
+       "half": 1
+      },
+      {
+       "type": "half_win",
+       "half": 2,
+       "side": "away"
+      }
+     ]
+    },
+    {
+     "fotmob": "58325232",
+     "bet": "BB: I ტაიმის შედეგი → X + I გუნდის გოლები 1.5 → მეტი",
+     "odds": 5.87,
+     "conds": [
+      {
+       "type": "half_draw",
+       "half": 1
+      },
+      {
+       "type": "team_over",
+       "side": "home",
+       "line": 1.5
       }
      ]
     }
